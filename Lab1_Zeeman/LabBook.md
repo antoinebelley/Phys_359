@@ -27,4 +27,8 @@ __________
 * **16:02**: We are currently aligning the Hall probe in the middle of the electromagnet by looking at the voltmeter and finding the highest voltage read.
 Everytime we come to the lab, we should be doing a calibration measurement so that we acquire as much data as possible
 
-* **16:15**: We are measuring power supply voltage vs Hall probe voltage (all in mv). The power supply is measured with the multimeter Hitachi EQ1692 on the setting 200mv, and the Hall probe voltage is measured with the multimeter Fluke77 on the 300mv setting. We took increments of 2.5mv to see the behaviour. It seems pretty linear so far. Saved data in 
+* **16:15**: We are measuring power supply voltage vs Hall probe voltage (all in mv). The power supply is measured with the multimeter Hitachi EQ1692 on the setting 200mv, and the Hall probe voltage is measured with the multimeter Fluke77 on the 300mv setting. We took increments of 2.5mv to see the behaviour. It seems pretty linear so far. Saved data in [0801_1633_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/0801_1633_Hall_Calibration.csv).
+
+Plot is here:
+![0801_1633_Calibration_of_power_source.pdf](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/0801_1633_Calibration_of_power_source.pdf)
+
