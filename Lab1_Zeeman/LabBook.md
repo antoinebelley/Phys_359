@@ -21,7 +21,7 @@ __________
 
 * **15:23**: Trying to measure residual magnetic field with the Hall probe HR-66 (EQ3485). Not exposed to magnetic field, the probe yields 0.7mV with Fluke 77 multimeter (see error) which via linear extrapolation yields a residual magnetic field of 9.73 ~ 10 G = 0.001Tesla. Is this Earth's Magnetic Field? (0.0025-0.0065 Teslas) or is it just a resdual electronic current?
 
-* **15:58**: Calibration plot for the Hall Probe
+* **15:58**: Interpolation plot for the Hall Probe from the data given in appendix
 ![Interpolation Hall probe](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Figures/Calibration_of_Hall_Probe.png)
 
 * **16:02**: We are currently aligning the Hall probe in the middle of the electromagnet by looking at the voltmeter and finding the highest voltage read.
