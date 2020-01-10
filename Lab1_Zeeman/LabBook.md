@@ -48,7 +48,7 @@ Also, a plotting method for csv files has been added to util.py
 ![Cd Lamp](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Cd_Lamp.png)
 
 * **15:35**: After a lot of effort we manage to see the band and to observe the diffraction pattern (pictures). We use the D-shaped lens to focus the light on the slit, which we made relatively small for its range. The slit is found when we adjust the screw controling the prism to about 55.6. 
-![Lens](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Focusing_Lamp_Setup.png)
+![Lens](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Focusing_Lens_Setup.png)
 ![Diffraction Pattern](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Diffraction_Pattern.png)
 
 
