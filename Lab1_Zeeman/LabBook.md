@@ -32,3 +32,23 @@ Plot is here:
 
 ![0801_1633_Calibration_of_power_source.pdf](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Figures/0801_1633_Calibration_of_power_source.png)
 
+
+08/01/2020
+__________
+* **13:39**: Calibrating power supply,we took pictures of our setup (picture). Centering the probe and taking new data.(See 08/01 for more details). On this calibration, we went up to 60mv, data in the file [1001_1339_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Data/CalibrationPowerSupply/1001_1339_PSCalibraiton.csv). 
+![Hall probe](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Hall_Probe.png)
+
+
+
+* **14:03**: Plot the calibration to make sure it makes sense. Plot is shown in Figures 
+![1001_1339_PSCalibration.png](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Figures/1001_1339_PSCalicration.png)
+Also, a plotting method for csv files has been added to util.py
+
+* **14:10**: We start setting up part 3.2.2 of the experiment (LG interferometer). We place the cadmium lamp between the coils (picture). We try and observe.
+![Cd Lamp](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Cd_Lamp.png)
+
+* **15:35**: After a lot of effort we manage to see the band and to observe the diffraction pattern (pictures). We use the D-shaped lens to focus the light on the slit, which we made relatively small for its range. The slit is found when we adjust the screw controling the prism to about 55.6. 
+![Lens](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Focusing_Lamp_Setup.png)
+![Diffraction Pattern](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Diffraction_Pattern.png)
+
+
