@@ -10,10 +10,10 @@ __________
 __________
 
 * **14:15**: Going through the list of equipment. So far, it looks like we are missing:
--EQ3494
--EQ3497 shunt 0.01 ohm/30 amps UPDATE found it! it is on top of the power supply
--Transparent tape
--D shaped lens
+    * -EQ3494
+    * -EQ3497 shunt 0.01 ohm/30 amps UPDATE found it! it is on top of the power supply
+    * -Transparent tape
+    * -D shaped lens
 
 * **14:45**: We are starting the calibration
 
