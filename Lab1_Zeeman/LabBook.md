@@ -68,7 +68,7 @@ __________
 * **11:36**: Taking our first picture -- having trouble with the blue reflects on the pictures. We believe this is caused by the long exposure (15").
 
 * **11:42**: Stand for camera is loose. We're putting a sheet of paper around it to stabilize it as shown below
-![Camera Set Up](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Camera_Set_up.png.png)
+![Camera Set Up](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Camera_Set_up.png)
 
 * **11:43**: We're now trying 8". Not conclusive. We're changing the aperture to 8.0 (previously 5.7). Not much better, although we get rid of some reflects when putting the black sheet on top of the apparatus.
 
