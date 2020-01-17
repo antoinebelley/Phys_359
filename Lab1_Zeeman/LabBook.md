@@ -125,5 +125,43 @@ __________
 
 
 
+15/01/2020
+__________
 
+**Fabry-Pérot**
+
+* **14:21**: We are now changing to do FB experiment. We are undoing the setup for the LG experiment first. We observe that there seem to be missing a full part of the LG plate (The oblic part at the end) which could explain why it doesn't work...
+
+* **14:37**: We placed the FB apparatus on (after the prism) and put a red filter between the prism and the FB apparatus (with tape). We can see the rings for the interference pattern but we can see a line with a lot more intensity because of the slit near the lamp...
+
+* **14:46**: We place the center of the diffraction pattern near the bottom right corner of the camera. This allows us to see a lot more 3/4 of circles. We take a picture : no magnetic field (14:46). We are wondering if we can remove the slit-collimator apparatus in order to get rid of the slit effect in our pattern.   
+
+* **14:55** We get a pattern much more uniform inintensity. Although, we get a point of light corresponding to the source itself and some reflects of it. We take a picture with this setting (No B-field, 14:57)
+
+    * When comparing with the image with the collimator, we get a much clearer image without the collimator (more circles) outside of some blue reflects coming from the prism.
+
+    * We rotate the prism so we get rid of noisy blue reflects. --> Maybe its just the prism being dirty. We try and clean it with wipes, but it doesnt change much. 
+
+    * We get a nice image now.
+
+* **15:11**: We try to put the lamp in a magnetic field to see if it has an effect on the diffraction pattern. Good news, it does! When we put the lamp in a big magnetic field (around 10 A in the power source), we see a lot more lines appear in the pattern.
+
+    * We change the batteries of the camera, but after that we should be able to take some data.
+
+* **15:17**: We are starting to take pictures for the FP setup. We will take pictures at increments of 10mV (settings: 80 ISO, Focus infinity, F8.0, 15"):
+    * 0mV (15:17)
+    * 10.0mV (15:18)
+    * 20.0mV (15:20)
+    * 30.1mV (15:21)
+    * 40.0mV (15:22)
+    * 50.0mV (15:23)
+    * 60.0mV (15:25)
+    * 70.0mV (15:27)
+    * 80.1mV (15:28)
+    * 89.9mV (15:30)
+
+* **
+
+
+  
 

@@ -42,7 +42,7 @@ def interpolation_hall_probe(value):
     volt=HallProbe_Data[:,0]
     bfield=HallProbe_Data[:,1]*0.1
     #Interpolation 
-    interp = ErrorPropagationSpline(volt, bfield, 0.001)
+    interp = ErrorPropagationSpline(volt, bfield,0.001)
     return interp(value)
 
 
