@@ -160,7 +160,16 @@ __________
     * 80.1mV (15:28)
     * 89.9mV (15:30)
 
-* **
+* **15:40**: in the samme manner as for the LG experiment, we put the images in JPEG_FP, the bmp formatted images in BMP_FP and the line profiles in Line_Profile_FP. The line profiles are obtained with each the same settings : the whole vertical length of the image (angle 90), 10 pixels of width and as through the center as possible (by eye). All of this is stored in the folder jan15 of our data.
+
+20/01/2020
+__________
+
+* **12:05**: We start by performing a thorough calibration. This time, we will make sure to cover the whole range (0 - 90 mV) in one go. We start by finding the center using the same method as described in earlier calibration. This time, the universal stand is placed in between the coils and the prism --> it makes it easier to move the Hall probe. The data is stored in [2001_1214_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Data/CalibrationPowerSupply/2001_1214_PSCalibraiton.csv)
+ 	* **NOTE** After 75mV, we went over the 300mV range of the fine tuning of the voltmeter, hence we switch the volmeter to normal V measuring --> We lost a decimal digit of accuracy. 
+
+
+
 
 
   
