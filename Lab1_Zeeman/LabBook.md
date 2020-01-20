@@ -35,7 +35,7 @@ Plot is here:
 
 08/01/2020
 __________
-* **13:39**: Calibrating power supply,we took pictures of our setup (picture). Centering the probe and taking new data.(See 08/01 for more details). On this calibration, we went up to 60mv, data in the file [1001_1339_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Data/CalibrationPowerSupply/1001_1339_PSCalibraiton.csv). 
+* **13:39**: Calibrating power supply,we took pictures of our setup (picture). Centering the probe and taking new data.(See 08/01 for more details). On this calibration, we went up to 60mv, data in the file [1001_1339_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Data/CalibrationPowerSupply/1001_1339_PSCalibration.csv). 
 ![Hall probe](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Pictures/Hall_Probe.png)
 
 
@@ -165,11 +165,41 @@ __________
 20/01/2020
 __________
 
-* **12:05**: We start by performing a thorough calibration. This time, we will make sure to cover the whole range (0 - 90 mV) in one go. We start by finding the center using the same method as described in earlier calibration. This time, the universal stand is placed in between the coils and the prism --> it makes it easier to move the Hall probe. The data is stored in [2001_1214_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Data/CalibrationPowerSupply/2001_1214_PSCalibraiton.csv)
+* **12:05**: We start by performing a thorough calibration. This time, we will make sure to cover the whole range (0 - 90 mV) in one go. We start by finding the center using the same method as described in earlier calibration. This time, the universal stand is placed in between the coils and the prism --> it makes it easier to move the Hall probe. The data is stored in [2001_1214_Powersupply_Calibration.csv](https://github.com/antoinebelley/Phys_359/blob/master/Lab1_Zeeman/Data/CalibrationPowerSupply/2001_1214_PSCalibration.csv)
  	* **NOTE** After 75mV, we went over the 300mV range of the fine tuning of the voltmeter, hence we switch the volmeter to normal V measuring --> We lost a decimal digit of accuracy. 
 
 
+* **13:00**: Lunch Break
 
+* **15:04**: We set up the apparatus to perform the FB experiment. We are again going to take images of the diffraction pattern for a similar voltage range at the power source, but this time we will proceed a bit differently. Rather than taking images at each 10mV (or other constant voltage value), we will take pictures when the camera displays a nice focused diffraction pattern. Last time, we ended up with some images being blurry, maybe because some diffraction orders were too close to one another. 
+	* Modus operandi:
+	* Take a picture when the focus is good. 
+	* Then increase voltage in the power source by a small amount --> and keep it such that we get a clear focused diffraction pattern. 
+	* Take the picture
+	* Repeat
+
+* **15:14**: The set up is ready. We will be taking pictures with the same settings as before (ISO 80, focus at infinity, F8.0, 15"):
+    * 0mv (15:17)
+    * 5.0mV (15:19)
+    * 15.2 mV (15:20)
+    * 22.5 mV (15:22)
+    * 35.0 mV (15:24)
+    * 65.0 mV (15:28) **note** the splitting seems to be occuring between 35.0mV and 65.0 mV. Therefore, the images are blurry.
+    * 83.0 mV (15:32)
+    * 90.0 mV (15:33)
+
+* **15:38**: we are running tests. When we put the collimator in the fabry perot setup, we're able to get rid of the big blob at the middle of the circle. However, a big white line now crosses the picture. We're taking pictures with the collimator, going downwards in the voltage.
+    * 90.2mV (15:39) (without the wooden cover on the apparatus)
+    * 90.2mV (15:43) (now we put the cover on)
+    * 82.3 mV (15:47)
+    * 75.1 mV (15:49)
+    * 65.2 mV (15:51)
+    * 55.0 mV (15:53)
+    * 45.2 mV (15:54)
+    * 34.8 mV (15:56)
+    * 25.2 mV (15:59)
+
+* **16:14**: We upload our data in the drive as jan20/JPEG_FP_Collimator and jan20/JPEG_FP_NoCollimator
 
 
   
