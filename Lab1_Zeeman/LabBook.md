@@ -201,6 +201,14 @@ __________
 
 * **16:14**: We upload our data in the drive as jan20/JPEG_FP_Collimator and jan20/JPEG_FP_NoCollimator
 
+22/01/2020
+__________
+
+* **13:53**: Discussion with Thomas -- Dont over complicate the circle analysis and we maybe have another LG plate
+
+* **14:07**: We try one picture without the FP étalon (to get an image of the source alone) and we take one picture with the FP apparatus and take a picture with the diffraction pattern. We will try to substract them to get rid of the source image and just get the diffraction circles.
+
+* **14:16**: We are doing the same thing as above but we're now removing the collimator. The first try was quite unsuccessful.
 
   
 

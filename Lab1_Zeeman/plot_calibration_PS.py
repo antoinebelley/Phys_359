@@ -99,8 +99,4 @@ ax2.legend( prop={'size': 18})
 #plt.savefig('Power_Supply_Calibraiton.png',bbox_inches='tight')
 #plt.show()
 
-print(len(V_PS))
-chi_squared = 0
-for i in range(len(B)):
-    chi_squared+=(fit[i]-B[i])**2/B[i]
-print(chi_squared)
+
