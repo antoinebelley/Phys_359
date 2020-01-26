@@ -5,82 +5,9 @@ from PIL import Image
 from matplotlib import pyplot as plt
 from lmfit import models
 import random
-
-# # import the image
-# print('Import image\n')
-# im = Image.open('IMG_4378.JPG').convert('F')
-# pixels = np.array(im)
-# # print(pixels)
-# # plt.imshow(im)
-# # plt.show()
-
-# # Create a template
-# print('Create circle template\n')
-# template = np.ones_like(pixels)
-# r = 200
-# y0 = (template[0].size)/2
-# x0 = (template[:,0].size)/2
-# for i in range(template[0].size):
-#     for j in range(template[1].size):
-#         if (i-x0)**2 + (j-y0)**2 < 470**2 and (i-x0)**2 + (j-y0)**2 > 430**2:
-#             template[i,j] = 80
-
-# # plt.imshow(template)
-# # plt.show()
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 
-# print('Cross Correlate\n')
-# # corr = signal.correlate2d(pixels, template, boundary='symm')
-# corr = signal.fftconvolve(pixels,template, mode='same')
-# print(corr.shape)
-
-# y0, x0 = np.unravel_index(np.argmax(corr), corr.shape)
-# amp = np.max(corr)
-# print(y0)
-# print(x0)
-
-# # plt.imshow(corr)
-# # plt.axvline(x0)
-# # plt.axhline(y0)
-# # plt.show()
-
-
-
-# def twoD_Gaussian(data,amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
-#     x,y = data
-#     xo = float(xo)
-#     yo = float(yo)    
-#     a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
-#     b = -(np.sin(2*theta))/(4*sigma_x**2) + (np.sin(2*theta))/(4*sigma_y**2)
-#     c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
-#     g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
-#                             + c*((y-yo)**2)))
-#     return g.ravel()
-
-# # Create x and y indices
-# x = np.linspace(0, 3999, 4000)
-# y = np.linspace(0, 2999, 3000)
-# x, y = np.meshgrid(x, y)
-# xdata = np.vstack((x.ravel(),y.ravel()))
-
-# # add some noise to the data and try to fit the data generated beforehand
-# initial_guess = (amp,x0,y0,40,40,0,2)
-
-# popt, pcov = opt.curve_fit(twoD_Gaussian, xdata, corr.ravel(), p0=initial_guess)
-
-# data_fitted = twoD_Gaussian(xdata, *popt)
-
-# fig, ax = plt.subplots(1, 1)
-
-# ax.imshow(corr, origin='bottom',extent=(x.min(), x.max(), y.min(), y.max()))
-# ax.contour(x, y, data_fitted.reshape(3000, 4000), 8, colors='w')
-# plt.show()
-    
-
-
-# plt.imshow(pixels)
-# plt.plot(x,y, '.', color='red')
-# plt.show()
 def generate_model(spec):
     composite_model = None
     params = None
@@ -120,6 +47,7 @@ def generate_model(spec):
             composite_model = composite_model + model
     return composite_model, params
 
+
 def update_spec_from_peaks(spec, model_indicies, peak_widths=(10, 25), **kwargs):
     x = spec['x']
     y = spec['y']
@@ -154,6 +82,9 @@ def print_best_values(spec, output):
         print(f'[{best_values[prefix+"center"]:3.3f}]  {values}')
 
 
+def exponential(x,a,b,c):
+    return a*np.exp(x*b)+c
+
 
 
 
@@ -170,15 +101,17 @@ class ImageAnalyse():
         y = np.linspace(0, self.image_size_y, self.image_size_y+1)
         self.x, self.y = np.meshgrid(x, y)
 
-    def find_circle_center(self, r=200):
+
+    def find_circle_center(self, r=250):
         #Creates a cricular mask to for which we want to find the correlation
         template = np.ones_like(self.image)
-        y0 = (template[0].size)/2
-        x0 = (template[:,0].size)/2
-        for i in range(template[0].size):
-            for j in range(template[1].size):
-                if (i-x0)**2 + (j-y0)**2 < 470**2 and (i-x0)**2 + (j-y0)**2 > 430**2:
-                    template[i,j] = 80
+        y0 = int(template[0].size)//2
+        x0 = int(template[:,0].size)//2
+        for n in range(1,4):
+            for i in range(template[0].size):
+                for j in range(template[1].size):
+                    if (i-x0)**2 + (j-y0)**2 < (n*r+10)**2 and (i-x0)**2 + (j-y0)**2 > (n*r-10)**2:
+                        template[i,j] = 80
         #Use fft's to find the correaltion between the mask and the image
         print('Performing cross correlation...\n')
         corr = signal.fftconvolve(self.image,template, mode='same')
@@ -186,8 +119,7 @@ class ImageAnalyse():
         self.amp = np.max(corr)
         self.corr = corr
         print(f'The position of the center is given by ({self.x0},{self.y0}).\n')
-        self.line_profile_corr_x = self.line_profile([0,self.image_size_x], [self.y0, self.y0], self.corr)
-        self.line_profile_corr_y = self.line_profile([self.x0, self.x0], [0, self.image_size_y], self.corr)
+
 
     def line_profile(self,xvalues, yvalues, z):
         x0, x1 = xvalues[0],xvalues[1] # These are in _pixel_ coordinates!!
@@ -197,6 +129,7 @@ class ImageAnalyse():
         # Extract the values along the line, using cubic interpolation
         zi = ndimage.map_coordinates(z, np.vstack((y,x)))
         return zi, x,y
+
 
     def twoD_Gaussian(self,data, amplitude, sigma_x, sigma_y, theta, offset):
         x,y = data
@@ -208,6 +141,7 @@ class ImageAnalyse():
         g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
                                 + c*((y-yo)**2)))
         return g.ravel()
+
 
     def fit_gaussian(self):
         xdata = np.vstack((self.x.ravel(),self.y.ravel()))
@@ -221,23 +155,72 @@ class ImageAnalyse():
         data_fitted = self.twoD_Gaussian(xdata, *popt)
         return popt, pcov, data_fitted
 
+
     def plot_center_and_error(self):
-        #popt, pcov, fit = self.fit_gaussian()
+        # popt, pcov, fit = self.fit_gaussian()
         fig, ax = plt.subplots(1, 1)
         #print(popt)
         ax.imshow(self.image,extent=(self.x.min(), self.x.max(), self.y.min(), self.y.max()))
         plt.plot(self.x0, 3000-self.y0,'ro')
-        #ax.contour(self.x, np.abs(3000-self.y), fit.reshape(3000, 4000), 0, colors='w')
+        # ax.contour(self.x, np.abs(3000-self.y), fit.reshape(3000, 4000), 0, colors='w')
         plt.show()
 
+
     def find_split(self, width):
-        line_profile,_,y = self.line_profile([self.x0,self.x0],[0, self.image_size_y], self.image)
+        line_profile_y,_,y = self.line_profile([self.x0,self.x0],[0, self.image_size_y], self.image)
+        exp_y = self.exp_fit(y, line_profile_y,width, self.y0)
+        line_profile_y_clean = line_profile_y[:self.y0]-exp_y
+        line_profile_x,x,_ = self.line_profile([0,self.image_size_x],[self.y0, self.y0], self.image)
+        exp_x = self.exp_fit(x, line_profile_x,width, self.x0)
+        line_profile_x_clean = line_profile_x[:self.x0]-exp_x
+        spec_y, peaks_y, components_y, fit_y = self.multi_gaussian_fitting(y,line_profile_y_clean, width, self.y0)
+        spec_x, peaks_x, components_x, fit_x = self.multi_gaussian_fitting(x,line_profile_x_clean, width, self.x0)
+
+
+        fig, ax1 = plt.subplots(figsize=(5.5, 5.5))
+        ax1.pcolormesh(self.image)
+        ax1.plot([self.x0,self.x0], [0, self.image_size_y], 'r-')
+        ax1.plot([0, self.image_size_x], [self.y0, self.y0], 'r-')
+        ax1.plot(self.x0, self.y0,'ro')
+        ax1.margins(0)
+        ax1.use_sticky_edges = True
+        ax1.set_aspect(1.)
+
+        # create new axes on the right and on the top of the current axes
+        # The first argument of the new_vertical(new_horizontal) method is
+        # the height (width) of the axes to be created in inches.
+        divider = make_axes_locatable(ax1)
+        ax0 = divider.append_axes("top", 1.2, pad=0.1, sharex=ax1)
+        ax2= divider.append_axes("right", 1.2, pad=0.1, sharey=ax1)
+
+        # make some labels invisible
+        ax0.xaxis.set_tick_params(labelbottom=False)
+        ax2.yaxis.set_tick_params(labelleft=False)
+
+        ax2.plot(line_profile_y, y)
+        ax2.axhline(self.y0, c='red')
+        ax2.margins(0)
+        for i, model in enumerate(spec_y['model']):
+            ax2.plot(components_y[f'm{i}_']+exp_y[self.y0-1500:],spec_y['x'])
+        
+        
+        ax0.plot(x,line_profile_x)
+        ax0.axvline(self.x0, c='red')
+        ax0.margins(0)
+        for i, model in enumerate(spec_x['model']):
+            ax0.plot(spec_x['x'],components_x[f'm{i}_']+exp_x[self.x0-1500:])
+
+        plt.show()
+        return fit_x, fit_y
+
+
+    def multi_gaussian_fitting(self,x,y, width, center):
         spec = {
-                'x': y[:self.y0],
-                'y': line_profile[:self.y0],
+                'x': x[center-1500:center],
+                'y': y[center-1500:center],
                 'model': []
             }
-        peaks = signal.find_peaks_cwt(line_profile[:self.y0], (width,))
+        peaks = signal.find_peaks_cwt(y[center-1500:center], (width,))
         for i in range(len(peaks)):
             spec['model'].append({'type': 'GaussianModel'})
         indices = np.arange(len(peaks))
@@ -245,35 +228,34 @@ class ImageAnalyse():
         model, params = generate_model(spec)
         output = model.fit(spec['y'], params, x=spec['x'])
         components = output.eval_components(x=spec['x'])
-        fig, axes = plt.subplots(nrows=2)
-        axes[0].imshow(self.image,origin='bottom', extent=(self.x.min(), self.x.max(), self.y.min(), self.y.max()))
-        axes[0].plot([self.x0,self.x0], [0, self.image_size_y], 'ro-')
-        axes[0].axis('image')
-
-        axes[1].plot(line_profile)
-        axes[1].axvline(self.y0, c='red')
-        for i in peaks_found:
-            axes[1].axvline(x=i, c='black', linestyle='dotted')
-        for i, model in enumerate(spec['model']):
-            axes[1].plot(spec['x'], components[f'm{i}_'])
-
-        plt.show()
-        fit_peak = np.zeros([len(spec['model']),2])
+        fit_peak = np.zeros([len(spec['model']),3])
         best_values = output.best_values
         for i, model in enumerate(spec['model']):
             prefix = f'm{i}_'
             fit_peak[i][0] = best_values[prefix+"center"]
-            fit_peak[i][1] = best_values[prefix+'sigma']
+            fit_peak[i][1]=  center-best_values[prefix+"center"]
+            fit_peak[i][2] = best_values[prefix+'sigma']
         fit_peak = np.sort(fit_peak,axis=0)
-        print(fit_peak)
-        delta = fit_peak[-5:-1]
-        delta[:,0] = np.absolute(self.y0-delta[:,0])
-        print(delta)
+        return spec, peaks_found, components, fit_peak
+
+    def exp_fit(self,x, y, width, center):
+
+        peaks = signal.find_peaks_cwt(-y[:center],(width,))
+        background = y[peaks]
+        initial_guess = np.array([2,0.001,20])
+        popt, pcov = opt.curve_fit(exponential,peaks , background, p0=initial_guess)
+        exp = exponential(x[:center],popt[0],popt[1],popt[2])
+        y = y[:center]-exponential(x[:center],popt[0],popt[1],popt[2])
+        return exp
 
 
 
-im = ImageAnalyse('Pictures/Pattern_30.1.JPG')
-im.find_circle_center(r=500)
-im.find_split(50)
-im.plot_center_and_error()
-
+im = ImageAnalyse('Pictures/JPEG_FP/Pattern_30.1.JPG')
+im.find_circle_center(r=250)
+fit_x, fit_y = im.find_split(25)
+print('Peaks found in x\n')
+print(fit_x)
+print()
+print()
+print('Peaks found in y\n')
+print(fit_y)
