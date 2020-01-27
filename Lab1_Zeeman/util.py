@@ -123,6 +123,33 @@ def update_spec_from_peaks(spec, model_indicies, peak_widths=(10, 25), **kwargs)
             raise NotImplemented(f'model {basis_func["type"]} not implemented yet')
     return peak_indicies
 
+def bohrmagneton(fit,t,Bfield,plank,lightspeed):
+    err=fit[2]
+    
+    rsq=fit[1]**2
+    rsqerr=2*rsq*err
+    #We will assume the peaks are given as follows: the 1st peak corresponds to the 
+    #left most splitting (quantum # 1) of the order n, the second correspond to the initial splitting,
+    #and the third correspond to the right most splitting (quantum # -1), and so on.
+    delta=0
+
+    for i in range(4):
+        delta+=rsq[3*i]-rsq[3*i+2]
+        
+    delta*=0.25
+    
+
+    triangle=0
+    
+    for i in range(2):
+        triangle+=rsq[6*i+3]-rsq[6*i]+rsq[6*i+5]-rsq[6*i+2]
+
+
+    triangle*=0.25
+
+    magneton=plank*lightspeed*delta*0.25/(Bfield*t*triangle)
+
+    return magneton
 
 
 
