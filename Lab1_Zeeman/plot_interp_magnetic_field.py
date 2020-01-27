@@ -25,4 +25,4 @@ plt.show()
 
 print(interpolation_hall_probe(0.026))
 print(interpolation_hall_probe(0.020))
-print(interpolation_hall_probe(0.014))
+print(interpolation_hall_probe(0.0899))
