@@ -236,6 +236,37 @@ __________
 * **18:14**: Creating table of all the data we have for the FP experiment to see if we are satisfied whith them or if we want to run them again tomorrow.
 
 
+27/01/2020
+__________
+
+* **10:20**: After an analysis of all pictures for FP last night, we want to try and take clearer pictures that isolate the different splitting rays.
+	* We clean up the set up (wipe the prism, set up FP experiment). 
+
+* **10:29**: We change the red filter to a new one, the old one was pretty damaged.and dirty. 
+* **10:37**: We cleaned up the camera. Turns out, it the images are much more clear. The camera was probably really dirty. 
+* **10:52**: We change the batteries and prepare to take some pictures. 
+
+* **10:55**: Camera Settings : 3.2", F5.6 aperture, ISO 80. 
+
+	**Images**
+	* 0.0 mV, 10:57
+	* 89.0 mV, not clear enough to take a picture. 
+* **11:44**: Try to place the lens near the camera : Does not help
+
+* **12:05**: The knobs on the FP etalon can be used to adjust the angle and the image. 
+
+* **12:07**: Taking images. 
+	* 1.5 mV, 12:07
+	* 89.9 mV, 12:11 , focus reduced
+	* 89.9 mV, 12:13, polarizer blocking splitting rays
+	* 89.9 mV, 12:16, polarizer letting splitting rays
+	* 91.6 mV, 12:21, blocking split
+	* 91.6 mV, 12:24, let what seems to be primary lines (j=0)
+	* 91.6 mV, 12:25, let j=+-1
+
+* **12:45**: Save them on drive under jan28/ and with eloquent names. Maybe if we take 3 pictures, no polarizer, polarizer j0 and polarizer j1, that would do the trick?
+
+
 
 
 
