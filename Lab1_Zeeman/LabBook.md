@@ -233,6 +233,7 @@ __________
 * **17:09**: We're applying some voltage to see if the splitting is better. We're at 90.1mv and we are taking a picture
 * **17:28**: We are trying to get a clearer picture since at high voltage, the images are still blurry.
 * **17:30**: Pictures taken but not so conclusive...
+* **18:14**: Creating table of all the data we have for the FP experiment to see if we are satisfied whith them or if we want to run them again tomorrow.
 
 
 

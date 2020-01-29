@@ -16,6 +16,7 @@ def circular_pattern(template, r,x,y):
             for j in range(template[1].size):
                 if (i-x)**2 + (j-y)**2 < (n*r+10)**2 and (i-x)**2 + (j-y)**2 > (n*r-10)**2:
                     template[i,j] = 40
+        #template[x-10:x+10,:] = 60
                
     return template
 
@@ -34,7 +35,7 @@ def generate_model(spec):
         prefix = f'm{i}_'
         model = getattr(models, basis_func['type'])(prefix=prefix)
         if basis_func['type'] in ['GaussianModel', 'LorentzianModel', 'VoigtModel']: # for now VoigtModel has gamma constrained to sigma
-            model.set_param_hint('sigma', min=1, max=300)
+            model.set_param_hint('sigma', min=1, max=100)
             model.set_param_hint('center', vary=False)
             model.set_param_hint('height', min=1e-6, max=1.1*y_max)
             model.set_param_hint('amplitude', min=1e-6)
@@ -50,7 +51,6 @@ def generate_model(spec):
             for param, options in basis_func['help'].items():
                 model.set_param_hint(param, **options)
         model_params = model.make_params(**default_params, **basis_func.get('params', {}))
-        model_params.stderr = 0.6
         if params is None:
             params = model_params
         else:
@@ -59,6 +59,7 @@ def generate_model(spec):
             composite_model = model
         else:
             composite_model = composite_model + model
+        params[f'm{i}_amplitude'].stderr = 0.6
     return composite_model, params
 
 
@@ -104,9 +105,11 @@ def exponential(x,a,b,c):
 
 class ImageAnalyse():
     def __init__(self, image, image_size = (4000,3000)):
+        self.name = image[:-4]
         print('Importing image...\n')
         im = Image.open(image).convert('F')
         pixels = np.array(im)
+        pixels[pixels>100] = 100
         self.image = pixels
         self.image_size_x=image_size[0]-1
         self.image_size_y=image_size[1]-1
@@ -122,7 +125,7 @@ class ImageAnalyse():
         x = int(template[:,0].size)//2
         x0=[]
         y0=[]
-        for s in range(r-5,r+6):
+        for s in range(r-10,r+11):
             template_r = circular_pattern(template,s,x,y)
             #Use fft's to find the correaltion between the mask and the image
             print('Performing cross correlation...\n')
@@ -152,41 +155,6 @@ class ImageAnalyse():
         return zi, x,y
 
 
-    def twoD_Gaussian(self,data, amplitude, sigma_x, sigma_y, theta, offset):
-        x,y = data
-        xo = float(self.x0)
-        yo = float(self.y0)    
-        a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
-        b = -(np.sin(2*theta))/(4*sigma_x**2) + (np.sin(2*theta))/(4*sigma_y**2)
-        c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
-        g = offset + amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) 
-                                + c*((y-yo)**2)))
-        return g.ravel()
-
-
-    def fit_gaussian(self):
-        xdata = np.vstack((self.x.ravel(),self.y.ravel()))
-        try:
-            initial_guess = (self.amp,5,5,0,0)
-            popt, pcov = opt.curve_fit(self.twoD_Gaussian, xdata, self.corr.ravel(), p0=initial_guess)
-        except:
-            self.find_circle_center()
-            initial_guess = (self.amp,1,1,0,0)
-            popt, pcov = opt.curve_fit(self.twoD_Gaussian, xdata, self.corr.ravel(), p0=initial_guess)
-        data_fitted = self.twoD_Gaussian(xdata, *popt)
-        return popt, pcov, data_fitted
-
-
-    def plot_center_and_error(self):
-        # popt, pcov, fit = self.fit_gaussian()
-        fig, ax = plt.subplots(1, 1)
-        #print(popt)
-        ax.imshow(self.image,extent=(self.x.min(), self.x.max(), self.y.min(), self.y.max()))
-        plt.plot(self.x0, 3000-self.y0,'ro')
-        # ax.contour(self.x, np.abs(3000-self.y), fit.reshape(3000, 4000), 0, colors='w')
-        plt.show()
-
-
     def find_split(self, width):
         line_profile_y,_,y = self.line_profile([self.x0,self.x0],[0, self.image_size_y], self.image)
         exp_y = self.exp_fit(y, line_profile_y,width, self.y0)
@@ -194,8 +162,8 @@ class ImageAnalyse():
         line_profile_x,x,_ = self.line_profile([0,self.image_size_x],[self.y0, self.y0], self.image)
         exp_x = self.exp_fit(x, line_profile_x,width, self.x0)
         line_profile_x_clean = line_profile_x[:self.x0]-exp_x
-        spec_y, peaks_y, components_y, fit_y = self.multi_gaussian_fitting(y,line_profile_y_clean, width, self.y0)
-        spec_x, peaks_x, components_x, fit_x = self.multi_gaussian_fitting(x,line_profile_x_clean, width, self.x0)
+        spec_y, peaks_y, components_y, fit_y = self.multi_gaussian_fitting(y,line_profile_y_clean, width, self.y0, distance = 1500)
+        spec_x, peaks_x, components_x, fit_x = self.multi_gaussian_fitting(x,line_profile_x_clean, width, self.x0, distance = 1500)
 
 
         fig, ax1 = plt.subplots(figsize=(8, 8))
@@ -213,39 +181,46 @@ class ImageAnalyse():
         # The first argument of the new_vertical(new_horizontal) method is
         # the height (width) of the axes to be created in inches.
         divider = make_axes_locatable(ax1)
-        ax0 = divider.append_axes("top", 1.2, pad=0.1, sharex=ax1)
-        ax2= divider.append_axes("right", 1.2, pad=0.1, sharey=ax1)
+        ax0 = divider.append_axes("top", 1.2, pad=0.3, sharex=ax1)
+        ax2= divider.append_axes("right", 1.2, pad=0.3, sharey=ax1)
 
         # make some labels invisible
         ax0.xaxis.set_tick_params(labelbottom=False)
         ax2.yaxis.set_tick_params(labelleft=False)
 
-        ax2.plot(line_profile_y, y)
+        ax2.errorbar(line_profile_y, y, xerr=0.6, fmt='')
         ax2.axhline(self.y0, c='red')
         ax2.margins(0)
         ax2.set_xlabel('Intensity')
+        ax2.set_xlim(0,150)
         ax0.set_ylabel('Intensity')
+        fit = 0
         for i, model in enumerate(spec_y['model']):
-            ax2.plot(components_y[f'm{i}_']+exp_y[self.y0-1500:],spec_y['x'])
-        
-        
-        ax0.plot(x,line_profile_x)
-        ax0.axvline(self.x0, c='red')
-        ax0.margins(0)
-        for i, model in enumerate(spec_x['model']):
-            ax0.plot(spec_x['x'],components_x[f'm{i}_']+exp_x[self.x0-1500:])
+            fit += components_y[f'm{i}_']
 
-        plt.show()
+        ax2.plot(fit+exp_y[self.y0-1500:self.y0],spec_y['x'])
+        
+        
+        ax0.errorbar(x,line_profile_x, yerr=0.6, fmt='')
+        ax0.axvline(self.x0, c='red')
+        ax0.set_ylim(0,150)
+        ax0.margins(0)
+        fit = 0
+        for i, model in enumerate(spec_x['model']):
+            fit += components_x[f'm{i}_']
+        ax0.plot(spec_x['x'],fit+exp_x[self.x0-1500:self.x0])
+
+        plt.savefig(f'{self.name}.png')
         return fit_x, fit_y
 
 
-    def multi_gaussian_fitting(self,x,y, width, center):
+    def multi_gaussian_fitting(self,x,y, width, center, distance):
         spec = {
-                'x': x[center-1500:center],
-                'y': y[center-1500:center],
+                'x': x[center-distance:center],
+                'y': y[center-distance:center],
                 'model': []
             }
-        peaks = signal.find_peaks_cwt(y[center-1500:center], (width,))
+        peaks = signal.find_peaks_cwt(y[center-distance:center], (width,))
         for i in range(len(peaks)):
             spec['model'].append({'type': 'GaussianModel'})
         indices = np.arange(len(peaks))
@@ -260,7 +235,7 @@ class ImageAnalyse():
             fit_peak[i][0] = best_values[prefix+"center"]
             fit_peak[i][1]=  center-best_values[prefix+"center"]
             fit_peak[i][2] = best_values[prefix+'sigma']
-        fit_peak = np.sort(fit_peak,axis=0)
+        fit_peak = np.array(sorted(fit_peak, key=lambda fit_peak_entry: fit_peak_entry[1]))
         return spec, peaks_found, components, fit_peak
 
     def exp_fit(self,x, y, width, center):
@@ -274,9 +249,9 @@ class ImageAnalyse():
 
 
 
-im = ImageAnalyse('Pictures/JPEG_FP/Pattern_89.9.JPG')
-im.find_circle_center(r=250)
-fit_x, fit_y = im.find_split(20)
+im = ImageAnalyse('Pictures/JPEG_29Jan/IMG_4424.JPG')
+im.find_circle_center(r=155)
+fit_x, fit_y = im.find_split(30)
 print('Peaks found in x\n')
 print(fit_x)
 print()
