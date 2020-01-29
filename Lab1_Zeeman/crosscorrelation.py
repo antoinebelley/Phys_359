@@ -85,7 +85,27 @@ def print_best_values(spec, output):
 def exponential(x,a,b,c):
     return a*np.exp(x*b)+c
 
+def bohrmagneton(center,x_fit,y_fit,t,Bfield,plank,lightspeed):
+    x=x_fit-center[0]
+    y=y_fit-center[1]
+    rsq=x**2+y**2
+    #We will assume the peaks are given as follows: the 1st peak corresponds to the 
+    #left most splitting (quantum # 1) of the order n, the second correspond to the initial splitting,
+    #and the third correspond to the right most splitting (quantum # -1), and so on.
+    delta=0
+    for i in range(4):
+        delta+=rsq[3*i]-rsq[3*i+2]
+    delta*=0.25
 
+    triangle=0
+    for i in range(2):
+        triangle+=rsq[6*i+3]-rsq[6*i]+rsq[6*i+5]-rsq[6*i+2]
+
+    triangle*=0.25
+
+    magneton=plank*lightspeed*delta*0.25/(Bfield*t*triangle)
+
+    return magneton
 
 
 class ImageAnalyse():
