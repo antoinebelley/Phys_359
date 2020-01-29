@@ -6,6 +6,19 @@ from matplotlib import pyplot as plt
 from lmfit import models
 import random
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from numba import jit
+
+@jit
+def circular_pattern(template, r,x,y):
+    template = template.copy()
+    for n in range(1,4):
+        for i in range(template[0].size):
+            for j in range(template[1].size):
+                if (i-x)**2 + (j-y)**2 < (n*r+10)**2 and (i-x)**2 + (j-y)**2 > (n*r-10)**2:
+                    template[i,j] = 40
+               
+    return template
+
 
 
 def generate_model(spec):
@@ -37,6 +50,7 @@ def generate_model(spec):
             for param, options in basis_func['help'].items():
                 model.set_param_hint(param, **options)
         model_params = model.make_params(**default_params, **basis_func.get('params', {}))
+        model_params.stderr = 0.6
         if params is None:
             params = model_params
         else:
@@ -109,7 +123,6 @@ def bohrmagneton(center,x_fit,y_fit,t,Bfield,plank,lightspeed):
 
 
 class ImageAnalyse():
-
     def __init__(self, image, image_size = (4000,3000)):
         print('Importing image...\n')
         im = Image.open(image).convert('F')
@@ -122,23 +135,31 @@ class ImageAnalyse():
         self.x, self.y = np.meshgrid(x, y)
 
 
-    def find_circle_center(self, r=250):
+    def find_circle_center(self, r=225):
         #Creates a cricular mask to for which we want to find the correlation
         template = np.ones_like(self.image)
-        y0 = int(template[0].size)//2
-        x0 = int(template[:,0].size)//2
-        for n in range(1,4):
-            for i in range(template[0].size):
-                for j in range(template[1].size):
-                    if (i-x0)**2 + (j-y0)**2 < (n*r+10)**2 and (i-x0)**2 + (j-y0)**2 > (n*r-10)**2:
-                        template[i,j] = 80
-        #Use fft's to find the correaltion between the mask and the image
-        print('Performing cross correlation...\n')
-        corr = signal.fftconvolve(self.image,template, mode='same')
-        self.y0, self.x0 = np.unravel_index(np.argmax(corr), corr.shape)
+        y = int(template[0].size)//2
+        x = int(template[:,0].size)//2
+        x0=[]
+        y0=[]
+        for s in range(r-5,r+6):
+            template_r = circular_pattern(template,s,x,y)
+            #Use fft's to find the correaltion between the mask and the image
+            print('Performing cross correlation...\n')
+            corr = signal.fftconvolve(self.image,template_r, mode='same')
+            yc, xc = np.unravel_index(np.argmax(corr), corr.shape)
+            y0.append(yc)
+            x0.append(xc)
+        y0 = np.array(y0)
+        x0=np.array(x0)
+        err_y0 = np.round(np.std(y0))
+        self.y0=int(np.round((np.mean(y0))))
+        err_x0 = np.round(np.std(x0))
+        self.x0 = int(np.round((np.mean(x0))))
+
         self.amp = np.max(corr)
         self.corr = corr
-        print(f'The position of the center is given by ({self.x0},{self.y0}).\n')
+        print(f'The position of the center is given by ({self.x0} pm {err_x0},{self.y0} pm {err_y0}).\n')
 
 
     def line_profile(self,xvalues, yvalues, z):
@@ -197,14 +218,16 @@ class ImageAnalyse():
         spec_x, peaks_x, components_x, fit_x = self.multi_gaussian_fitting(x,line_profile_x_clean, width, self.x0)
 
 
-        fig, ax1 = plt.subplots(figsize=(5.5, 5.5))
-        ax1.pcolormesh(self.image)
+        fig, ax1 = plt.subplots(figsize=(8, 8))
+        ax1.imshow(self.image)
         ax1.plot([self.x0,self.x0], [0, self.image_size_y], 'r-')
         ax1.plot([0, self.image_size_x], [self.y0, self.y0], 'r-')
         ax1.plot(self.x0, self.y0,'ro')
         ax1.margins(0)
         ax1.use_sticky_edges = True
         ax1.set_aspect(1.)
+        ax1.set_ylabel('Pixels')
+        ax1.set_xlabel('Pixels')
 
         # create new axes on the right and on the top of the current axes
         # The first argument of the new_vertical(new_horizontal) method is
@@ -220,6 +243,8 @@ class ImageAnalyse():
         ax2.plot(line_profile_y, y)
         ax2.axhline(self.y0, c='red')
         ax2.margins(0)
+        ax2.set_xlabel('Intensity')
+        ax0.set_ylabel('Intensity')
         for i, model in enumerate(spec_y['model']):
             ax2.plot(components_y[f'm{i}_']+exp_y[self.y0-1500:],spec_y['x'])
         
@@ -259,7 +284,6 @@ class ImageAnalyse():
         return spec, peaks_found, components, fit_peak
 
     def exp_fit(self,x, y, width, center):
-
         peaks = signal.find_peaks_cwt(-y[:center],(width,))
         background = y[peaks]
         initial_guess = np.array([2,0.001,20])
@@ -270,9 +294,9 @@ class ImageAnalyse():
 
 
 
-im = ImageAnalyse('Pictures/JPEG_FP/Pattern_30.1.JPG')
+im = ImageAnalyse('Pictures/JPEG_FP/Pattern_89.9.JPG')
 im.find_circle_center(r=250)
-fit_x, fit_y = im.find_split(25)
+fit_x, fit_y = im.find_split(20)
 print('Peaks found in x\n')
 print(fit_x)
 print()

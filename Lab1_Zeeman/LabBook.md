@@ -210,5 +210,65 @@ __________
 
 * **14:16**: We are doing the same thing as above but we're now removing the collimator. The first try was quite unsuccessful.
 
+
+27/01/2020
+__________
+
+* **13:46**: We found a way to find the center of the circle using cross-corelation. Also build a code that extracts the line profile in x and y passing through the center found by the cross correlation and detects peaks and fit gaussians to them. We are veryfing that we can obtain the right value for the bohr magneton with the fitting. It is in the same order of magnitude, but it seems that the zeeman split lines are one of top of the other. 
+
+* **15:15**: Found the error for the intensity of the pixels by taking two pictures (FP, 0mV), substracting them and taking the average. Found an error of 0.6.
+
+* **15:45**: Trying to add the polarizer to isolate the split lines better.
+    * 90.0 mV (15:46) Polarizer at 0 degree
+    * 90.0 mv (15:53) Polarizer at -45 degree
+    * 90.0 mV (15:54) Polarizer at 45 degree
+* **16:28**: The polarizer does not help. It only dims the light
+    * 0.0 mV (16:33) - taking a picture for further analysis
+* **16:36**: We think the tape was the culprit
+* **16:37**: The tape was indeed guilty. 
+* **16:38**: Let's put back the polarizer and see what it gives
+* **16:45**: can ignore that picture we just took
+* **16:50**: We cannot obtain results with enough intensity with the polarizer so we gave up... Trying to do LG with the new plate.
+* **17:08**: We setup the LG apparatus. We are taking a picture with no voltage
+* **17:09**: We're applying some voltage to see if the splitting is better. We're at 90.1mv and we are taking a picture
+* **17:28**: We are trying to get a clearer picture since at high voltage, the images are still blurry.
+* **17:30**: Pictures taken but not so conclusive...
+
+
+27/01/2020
+__________
+
+* **10:20**: After an analysis of all pictures for FP last night, we want to try and take clearer pictures that isolate the different splitting rays.
+	* We clean up the set up (wipe the prism, set up FP experiment). 
+
+* **10:29**: We change the red filter to a new one, the old one was pretty damaged.and dirty. 
+* **10:37**: We cleaned up the camera. Turns out, it the images are much more clear. The camera was probably really dirty. 
+* **10:52**: We change the batteries and prepare to take some pictures. 
+
+* **10:55**: Camera Settings : 3.2", F5.6 aperture, ISO 80. 
+
+	**Images**
+	* 0.0 mV, 10:57
+	* 89.0 mV, not clear enough to take a picture. 
+* **11:44**: Try to place the lens near the camera : Does not help
+
+* **12:05**: The knobs on the FP etalon can be used to adjust the angle and the image. 
+
+* **12:07**: Taking images. 
+	* 1.5 mV, 12:07
+	* 89.9 mV, 12:11 , focus reduced
+	* 89.9 mV, 12:13, polarizer blocking splitting rays
+	* 89.9 mV, 12:16, polarizer letting splitting rays
+	* 91.6 mV, 12:21, blocking split
+	* 91.6 mV, 12:24, let what seems to be primary lines (j=0)
+	* 91.6 mV, 12:25, let j=+-1
+
+* **12:45**: Save them on drive under jan28/ and with eloquent names. Maybe if we take 3 pictures, no polarizer, polarizer j0 and polarizer j1, that would do the trick?
+
+
+
+
+
+
   
 
