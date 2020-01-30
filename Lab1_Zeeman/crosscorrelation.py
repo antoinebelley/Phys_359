@@ -67,9 +67,9 @@ def update_spec_from_peaks(spec, model_indicies, peak_widths=(10, 25), **kwargs)
     x = spec['x']
     y = spec['y']
     x_range = np.max(x) - np.min(x)
-    peak_indicies = signal.find_peaks_cwt(y, peak_widths)
+    peak_indicies = signal.find_peaks(y, width=peak_widths)[0]
     np.random.shuffle(peak_indicies)
-    for peak_indicie, model_indicie in zip(peak_indicies.tolist(), model_indicies):
+    for peak_indicie, model_indicie in zip(peak_indicies, model_indicies):
         model = spec['model'][model_indicie]
         if model['type'] in ['GaussianModel', 'LorentzianModel', 'VoigtModel']:
             params = {
@@ -109,7 +109,7 @@ class ImageAnalyse():
         print('Importing image...\n')
         im = Image.open(image).convert('F')
         pixels = np.array(im)
-        pixels[pixels>100] = 100
+        pixels[pixels>50] = 50
         self.image = pixels
         self.image_size_x=image_size[0]-1
         self.image_size_y=image_size[1]-1
@@ -138,7 +138,7 @@ class ImageAnalyse():
         err_y0 = np.round(np.std(y0))
         self.y0=int(np.round((np.mean(y0))))
         err_x0 = np.round(np.std(x0))
-        self.x0 = int(np.round((np.mean(x0))))
+        self.x0 = int(np.round((np.mean(x0))))+100
 
         self.amp = np.max(corr)
         self.corr = corr
@@ -156,16 +156,19 @@ class ImageAnalyse():
 
 
     def find_split(self, width):
-        line_profile_y,_,y = self.line_profile([self.x0,self.x0],[0, self.image_size_y], self.image)
-        exp_y = self.exp_fit(y, line_profile_y,width, self.y0)
-        line_profile_y_clean = line_profile_y[:self.y0]-exp_y
-        line_profile_x,x,_ = self.line_profile([0,self.image_size_x],[self.y0, self.y0], self.image)
-        exp_x = self.exp_fit(x, line_profile_x,width, self.x0)
-        line_profile_x_clean = line_profile_x[:self.x0]-exp_x
-        spec_y, peaks_y, components_y, fit_y = self.multi_gaussian_fitting(y,line_profile_y_clean, width, self.y0, distance = 1500)
-        spec_x, peaks_x, components_x, fit_x = self.multi_gaussian_fitting(x,line_profile_x_clean, width, self.x0, distance = 1500)
+        line_profile_y,_,self.y = self.line_profile([self.x0,self.x0],[0, self.image_size_y], self.image)
+        self.line_profile_y = ndimage.gaussian_filter(line_profile_y,4)
+        #self.exp_y = self.exp_fit(self.y, self.line_profile_y,width, self.y0)
+        line_profile_y_clean = self.line_profile_y[:self.y0]#-exp_y
+        self.line_profile_x,self.x,_ = self.line_profile([0,self.image_size_x],[self.y0, self.y0], self.image)
+        #self.exp_x = self.exp_fit(self.x, self.line_profile_x,width, self.x0)
+        #line_profile_x_clean = self.line_profile_x[:self.x0]#-exp_x
+        self.spec_y, self.peaks_y, self.components_y, self.fit_y = self.multi_gaussian_fitting(self.y,line_profile_y_clean, width, self.y0, distance = 1600)
+        #self.spec_x, self.peaks_x, self.components_x, self.fit_x = self.multi_gaussian_fitting(self.x,line_profile_x_clean, width, self.x0, distance = 1500)
+        return self.fit_y
 
 
+    def plot_fig(self):
         fig, ax1 = plt.subplots(figsize=(8, 8))
         ax1.imshow(self.image)
         ax1.plot([self.x0,self.x0], [0, self.image_size_y], 'r-')
@@ -174,57 +177,60 @@ class ImageAnalyse():
         ax1.margins(0)
         ax1.use_sticky_edges = True
         ax1.set_aspect(1.)
-        ax1.set_ylabel('Pixels')
-        ax1.set_xlabel('Pixels')
+        ax1.set_ylabel('Pixels', size = 14)
+        ax1.set_xlabel('Pixels', size = 14)
+        
 
         # create new axes on the right and on the top of the current axes
         # The first argument of the new_vertical(new_horizontal) method is
         # the height (width) of the axes to be created in inches.
         divider = make_axes_locatable(ax1)
-        ax0 = divider.append_axes("top", 1.2, pad=0.3, sharex=ax1)
-        ax2= divider.append_axes("right", 1.2, pad=0.3, sharey=ax1)
+        ax0 = divider.append_axes("top", 1.2, pad=0.32, sharex=ax1)
+        ax2 = divider.append_axes("right", 1.2, pad=0.32, sharey=ax1)
+        
+        
 
         # make some labels invisible
+        ax1.xaxis.set_tick_params(labelrotation = -60)
+        ax2.xaxis.set_tick_params(labelrotation = -60)
+        ax1.yaxis.set_tick_params(labelrotation = 30)
+        ax0.yaxis.set_tick_params(labelrotation = 30)
+        ax0.xaxis.set_tick_params(labelbottom=False)
         ax0.xaxis.set_tick_params(labelbottom=False)
         ax2.yaxis.set_tick_params(labelleft=False)
 
-        ax2.errorbar(line_profile_y, y, xerr=0.6, fmt='')
+
+        ax2.errorbar(self.line_profile_y, self.y, xerr=0.6, fmt='')
         ax2.axhline(self.y0, c='red')
         ax2.margins(0)
-        ax2.set_xlabel('Intensity')
-        ax2.set_xlim(0,150)
-        ax0.set_ylabel('Intensity')
-        fit = 0
-        for i, model in enumerate(spec_y['model']):
-            fit += components_y[f'm{i}_']
-
-        ax2.plot(fit+exp_y[self.y0-1500:self.y0],spec_y['x'])
+        ax2.set_xlabel(r'Intensity', size = 14)
+        ax2.set_xlim(0,75)
+        ax2.tick_params(axis="both", labelsize=14)
+        ax0.tick_params(axis="both", labelsize=14)
+        ax1.tick_params(axis="both", labelsize=14)
+        ax0.set_ylabel('Intensity', size=14)
         
         
-        ax0.errorbar(x,line_profile_x, yerr=0.6, fmt='')
+        ax0.errorbar(self.x,self.line_profile_x, yerr=0.6, fmt='')
         ax0.axvline(self.x0, c='red')
-        ax0.set_ylim(0,150)
+        ax0.set_ylim(0,75)
         ax0.margins(0)
-        fit = 0
-        for i, model in enumerate(spec_x['model']):
-            fit += components_x[f'm{i}_']
-        ax0.plot(spec_x['x'],fit+exp_x[self.x0-1500:self.x0])
-
         plt.savefig(f'{self.name}.png')
-        return fit_x, fit_y
+        
+        
 
 
     def multi_gaussian_fitting(self,x,y, width, center, distance):
         spec = {
-                'x': x[center-distance:center],
-                'y': y[center-distance:center],
-                'model': []
+                'x': x[center-distance:center-700],
+                'y': y[center-distance:center-700],
+                'model': [{'type': 'GaussianModel'}]
             }
-        peaks = signal.find_peaks_cwt(y[center-distance:center], (width,))
+        peaks = signal.find_peaks(y[center-distance:center-700], width=width)[0]
         for i in range(len(peaks)):
             spec['model'].append({'type': 'GaussianModel'})
         indices = np.arange(len(peaks))
-        peaks_found = update_spec_from_peaks(spec, indices, peak_widths=(width,))
+        peaks_found = update_spec_from_peaks(spec, indices, peak_widths=width)
         model, params = generate_model(spec)
         output = model.fit(spec['y'], params, x=spec['x'])
         components = output.eval_components(x=spec['x'])
@@ -239,22 +245,19 @@ class ImageAnalyse():
         return spec, peaks_found, components, fit_peak
 
     def exp_fit(self,x, y, width, center):
-        peaks = signal.find_peaks_cwt(-y[:center],(width,))
+        peaks = signal.find_peaks_cwt(-y[:center-700],(width,))
         background = y[peaks]
-        initial_guess = np.array([2,0.001,20])
+        initial_guess = np.array([2,0.0001,0])
         popt, pcov = opt.curve_fit(exponential,peaks , background, p0=initial_guess)
-        exp = exponential(x[:center],popt[0],popt[1],popt[2])
+        exp = exponential(x[:center-600],popt[0],popt[1],popt[2])
         y = y[:center]-exponential(x[:center],popt[0],popt[1],popt[2])
         return exp
 
 
 
-im = ImageAnalyse('Pictures/JPEG_29Jan/IMG_4424.JPG')
-im.find_circle_center(r=155)
-fit_x, fit_y = im.find_split(30)
-print('Peaks found in x\n')
-print(fit_x)
-print()
-print()
-print('Peaks found in y\n')
-print(fit_y)
+# im = ImageAnalyse('Pictures/JPEG_29Jan/IMG_4442.JPG')
+# im.find_circle_center(r=155)
+# fit_y = im.find_split(10)
+
+# print('Peaks found in y\n')
+# print(fit_y)
