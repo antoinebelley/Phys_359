@@ -309,7 +309,7 @@ Here are our measures:
 245.1
 244.7
 
-The average is 244.95mV, with a standard deviation of 1.3243447.
+The average is 244.95mV, with a standard deviation of 1.3243447. --> Systematic error in the placing of the source.
 
 
 
