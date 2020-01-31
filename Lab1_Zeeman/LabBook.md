@@ -291,11 +291,25 @@ __________
     * 60.7mV Two pictures with polarizer in one sense
     * 60.7mV Two pictures with polarizer in the other sense
 
+31/01/2020
+__________
 
+* **10:24**: We are finalizing the evaluation of systematic errors. We are looking for the changes in voltage perceived by the hall probe when moved either in x direction or in y direction (see lab book manual if lost). We're doing 8 measurement for the 8 corners of our cube of uncertainty. 
 
+* **10:49**: We're doing a second series of measurement where we just try to place it in the middle using our eyesight.
+Here are our measures:
+245.5
+242.6
+247
+246.4
+245.5
+244.5
+243.2
+245
+245.1
+244.7
 
-
-
+The average is 244.95mV, with a standard deviation of 1.3243447.
 
 
 
