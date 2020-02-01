@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
+import seaborn as sns
 
 
 #Import the data and put it in the right unit for the interpolation
-data = np.loadtxt('Data/CalibrationPowerSupply/0801_1663_PSCalibraiton.csv', delimiter=',', skiprows=1)
+data = np.loadtxt('Data/CalibrationPowerSupply/2001_1214_PSCalibration.csv', delimiter=',', skiprows=1)
 data = np.sort(data, axis=0)
 V_PS = data[:,0]
 V_HP = data[:,1]*0.001
@@ -24,11 +25,14 @@ V_HP_max = V_HP+err_V_HP
 def fit_B_field(B):
     """Compute the least-square fit of the B-field and computes the error on the fit 
     using the covariance matrix"""
-    p, cov = np.polyfit(V_PS, B,1, cov=True)
-    cov_err = [np.sqrt(cov[0,0]), np.sqrt(cov[1,1])]
+    p, cov = np.polyfit(V_PS, B,3, cov=True)
+
+    cov_err = np.zeros(len(p))
+    for i in range(len(p)):
+        cov_err[i] = np.sqrt(cov[i,i])
     p_min = p - cov_err
     p_max = p + cov_err
-    return [p, p_min, p_max]
+    return [p,p_min,p_max]
 
 def convert_V_to_B(V_HP,V_PS, bound=None, fit = True):
     """Convert the voltage in B-field using the interpolation of the values given in
@@ -53,12 +57,14 @@ def convert_V_to_B(V_HP,V_PS, bound=None, fit = True):
 
     if fit == True:
         fit = np.polyval(p,V_PS)
+
     model = lambda V: np.polyval(p,V)
     return B, fit, model
 
 
 
 B, fit, model   = convert_V_to_B(V_HP, V_PS)
+print(model(89.9))
 B_min, fit_min, model_min  = convert_V_to_B(V_HP_min, V_PS, bound='lower')
 B_max, fit_max, model_max = convert_V_to_B(V_HP_max, V_PS, bound='upper')
 
@@ -70,8 +76,8 @@ ax1 = fig.add_subplot(gs[0:2, :])
 ax2 = fig.add_subplot(gs[2, :])
 gs.update(wspace=0.05, hspace=0.05)
 
-ax1.fill_between(V_PS,fit_min, fit_max, color='gray', alpha=0.7, label='Error on linear fit')
-ax1.errorbar(V_PS, B,xerr=0.1, yerr=[B-B_min,B_max-B], label='Measured B_field', fmt='.')
+#ax1.fill_between(V_PS,fit, color='gray', alpha=0.7, label='Error on linear fit')
+ax1.errorbar(V_PS, B,xerr=0.1,yerr=[B-B_min,B_max-B], label='Measured B_field', fmt='.')
 ax1.plot(V_PS, fit, linewidth=0.8, label='Best linear fit', color='r')
 ax1.set_ylabel('B-Field measured by \n the Hall Probe (T)', size = 22)
 ax1.tick_params(axis="y", labelsize=20 )
@@ -80,23 +86,24 @@ ax1.tick_params(which='minor',axis='both', direction='in', length=5)
 plt.setp(ax1.get_xticklabels(), visible=False)
 ax1.xaxis.set_minor_locator(AutoMinorLocator())
 ax1.yaxis.set_minor_locator(AutoMinorLocator())
-ax1.set_xticks([0,10,20,30,40,50,60])
+ax1.set_xticks([0,10,20,30,40,50,60,70,90])
 ax1.legend(loc=4, prop={'size': 18})
 
 
 # ax2.plot(V_PS,fit_true-B_true,'.', label='Residuals', markersize=10)
-ax2.errorbar(V_PS, fit-B, yerr=[B-B_min,B_max-B],xerr=0.1, label='Residuals', fmt='.')
+ax2.errorbar(V_PS, fit-B, yerr=[B-B_min,B_max-B],xerr=0.1, label='Residuals (T)', fmt='.')
+print(np.sum((fit-B/B_max-B_min)**2/(len(V_PS)-3)))
 ax2.axhline(color='k', linewidth=0.5)
 ax2.tick_params(axis="both", labelsize=20)
 ax2.tick_params(axis='both', direction='in', length=10)
 ax2.tick_params(which='minor',axis='both', direction='in', length=5)
-ax2.set_xticklabels(['0.0','10.0','20.0','30.0','40.0','50.0', '60.0'])
-ax2.set_xticks([0,10,20,30,40,50,60])
+ax2.set_xticklabels(['0.0','10.0','20.0','30.0','40.0','50.0', '60.0','70.0', '80.0', '90.0'])
+ax2.set_xticks([0,10,20,30,40,50,60,70,80,90])
 ax2.xaxis.set_minor_locator(AutoMinorLocator())
 ax2.yaxis.set_minor_locator(AutoMinorLocator())
-ax2.set_xlabel('Voltage of the power supply (mV)', size = 22)
+ax2.set_xlabel('Voltage measured on the shunt resistor (mV)', size = 22)
 ax2.legend( prop={'size': 18})
-#plt.savefig('Power_Supply_Calibraiton.png',bbox_inches='tight')
+plt.savefig('Power_Supply_Calibraiton.png',bbox_inches='tight')
 #plt.show()
 
 

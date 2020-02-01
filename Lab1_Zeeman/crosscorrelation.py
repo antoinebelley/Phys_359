@@ -67,7 +67,7 @@ def update_spec_from_peaks(spec, model_indicies, peak_widths=(10, 25), **kwargs)
     x = spec['x']
     y = spec['y']
     x_range = np.max(x) - np.min(x)
-    peak_indicies = signal.find_peaks(y, width=peak_widths)[0]
+    peak_indicies = signal.find_peaks(ndimage.gaussian_filter(y,4), width=peak_widths)[0]
     np.random.shuffle(peak_indicies)
     for peak_indicie, model_indicie in zip(peak_indicies, model_indicies):
         model = spec['model'][model_indicie]
@@ -157,13 +157,14 @@ class ImageAnalyse():
 
     def find_split(self, width):
         line_profile_y,_,self.y = self.line_profile([self.x0,self.x0],[0, self.image_size_y], self.image)
+        self.line = line_profile_y
         self.line_profile_y = ndimage.gaussian_filter(line_profile_y,4)
         #self.exp_y = self.exp_fit(self.y, self.line_profile_y,width, self.y0)
         line_profile_y_clean = self.line_profile_y[:self.y0]#-exp_y
         self.line_profile_x,self.x,_ = self.line_profile([0,self.image_size_x],[self.y0, self.y0], self.image)
         #self.exp_x = self.exp_fit(self.x, self.line_profile_x,width, self.x0)
         #line_profile_x_clean = self.line_profile_x[:self.x0]#-exp_x
-        self.spec_y, self.peaks_y, self.components_y, self.fit_y = self.multi_gaussian_fitting(self.y,line_profile_y_clean, width, self.y0, distance = 1600)
+        self.spec_y, self.peaks_y, self.components_y, self.fit_y = self.multi_gaussian_fitting(self.y,line_profile_y_clean, width, self.y0, distance = 1700)
         #self.spec_x, self.peaks_x, self.components_x, self.fit_x = self.multi_gaussian_fitting(self.x,line_profile_x_clean, width, self.x0, distance = 1500)
         return self.fit_y
 
@@ -226,7 +227,7 @@ class ImageAnalyse():
                 'y': y[center-distance:center-700],
                 'model': [{'type': 'GaussianModel'}]
             }
-        peaks = signal.find_peaks(y[center-distance:center-700], width=width)[0]
+        peaks = signal.find_peaks(ndimage.gaussian_filter(y[center-distance:center-700],4), width=width)[0]
         for i in range(len(peaks)):
             spec['model'].append({'type': 'GaussianModel'})
         indices = np.arange(len(peaks))
