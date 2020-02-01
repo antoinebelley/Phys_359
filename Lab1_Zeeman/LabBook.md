@@ -236,7 +236,7 @@ __________
 * **18:14**: Creating table of all the data we have for the FP experiment to see if we are satisfied whith them or if we want to run them again tomorrow.
 
 
-27/01/2020
+28/01/2020
 __________
 
 * **10:20**: After an analysis of all pictures for FP last night, we want to try and take clearer pictures that isolate the different splitting rays.
@@ -266,8 +266,50 @@ __________
 
 * **12:45**: Save them on drive under jan28/ and with eloquent names. Maybe if we take 3 pictures, no polarizer, polarizer j0 and polarizer j1, that would do the trick?
 
+29/01/2020
+__________
 
+* **13:51**: Today we decided to evaluate possible systematic errors. 
+* **13:54**: Update. We are seeing the lines a lot better today, following the adjustments made yesterday
+* **13:55**: We took a picture at 0mv ish.
+* **13:56**: We now take a picture really at 0mV. We have no polarizers
 
+* **14:01**: We are starting to take data. We will take two pictures under the same settings using a polarizer. We are presently taking pictures at 89.0mV, at two different angles so that we see different rays of light. Here are the pictures we took at 89.0mV:
+    * Two pictures with no polarizers (3.2",F8.0)
+    * Two pictures with polarizer at a certain angle to focus on certain lines (8",F8.0)
+    * Two pictures with polarizer at a different angle to focus on other lines (8",F8.0)
+    * Two pictures with no polarizers at 0mV without moving the camera (3.2",F8.0)
+
+* **14:06**: Note to the reader. The goal of taking two pictures with same settings everytime is to eventually derive an estimate for the systematic error.
+
+* **14:07**: We are uploading the images in Antoine's computer.
+
+* **14:27**: We now take pictures to evaluate the systematic error on the pixel intensity of the camera. We take successive pictures of a white sheet in our usual camera settings (8",F8.0 and 3.2",F8.0), so that we can quantify the systematic uncertainty. We took 5 pictures around 14:30.
+
+* **15:25**: We start taking pictures again. We take two pictures every time, with the settings (8", F8.0, focus at inf). We start at 0 mV and we go up. We try to obtain clearer splitting between the +1 and -1 states. 
+    * 0.1mV Two pictures
+    * 60.7mV Two pictures with polarizer in one sense
+    * 60.7mV Two pictures with polarizer in the other sense
+
+31/01/2020
+__________
+
+* **10:24**: We are finalizing the evaluation of systematic errors. We are looking for the changes in voltage perceived by the hall probe when moved either in x direction or in y direction (see lab book manual if lost). We're doing 8 measurement for the 8 corners of our cube of uncertainty. 
+
+* **10:49**: We're doing a second series of measurement where we just try to place it in the middle using our eyesight.
+Here are our measures:
+245.5
+242.6
+247
+246.4
+245.5
+244.5
+243.2
+245
+245.1
+244.7
+
+The average is 244.95mV, with a standard deviation of 1.3243447. --> Systematic error in the placing of the source.
 
 
 
