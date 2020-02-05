@@ -38,7 +38,7 @@ def err(B,errB,dist,h,c,t): #add herr and cerr as params eventually
 	return magneton, magnetonerr
 
 c=299792458
-h=1.054571726*10**(-34)
+h=6.62607004*10**(-34)
 dist1=np.array(
  [[1663.55470314,329.44529686,85.81980428],
  [1443.48132088,549.51867912,38.54966208],
@@ -139,11 +139,21 @@ dist6=np.array([
 [447.1490994,1548.8509006 ,16.38019244],
 [403.13442295,1592.86557705,11.91840388]
 ])
+
+dist_corrected=np.array([
+	[0,722,20],
+	[0,806,49],
+	[0,897,13],
+	[0,960,29],
+	[0,1097,13],
+	[0,1162,14],
+	[0,1274,15],
+	[0,1322,14]])
 t=0.004
-B=0.125
+B=0.7
 errB=0.001
 
-magneton, magnetonerr=err(B,errB,dist6,h,c,t)
+magneton, magnetonerr=err(B,errB,dist_corrected,h,c,t)
 print(magneton)
 print(magnetonerr)
 
