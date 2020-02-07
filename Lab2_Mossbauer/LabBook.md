@@ -21,4 +21,7 @@ __________
 07/02/2020
 __________
 
-* **13:41**: Came back to see the data from the calibration. We do see the peaks but they are doubled, since we are sweeping the speed in both sense. The data looks very good however. Saved in 
+* **13:41**: Came back to see the data from the calibration. We do see the peaks but they are doubled, since we are sweeping the speed in both sense. The data looks very good however. Saved in [IronFoil0207.Asc](https://github.com/antoinebelley/Phys_359/blob/master/Lab2_Mossbauer/Ironfoil0207.Asc)
+
+
+* **13.50**: Starting the run for the Ferric fluoride sample. 
