@@ -41,6 +41,9 @@ __________
 12/02/2020
 __________
 
-* **14:15**: Stipppong the [mica run](https://iopscience.iop.org/article/10.1088/0953-8984/1/9/005/pdf).
+* **14:15**: Stopping the [mica run](https://github.com/antoinebelley/Phys_359/blob/master/Lab2_Mossbauer/mica0212.txt).
+* **14:30**: Starting measurement with the stainless steel foil.
+* **15:26**: Ending measurement with stainless steel foil.
+* **15:27**: Placing in the mica plate. We are doing it first for the plate vertically placed. I.e no angle.
 
 
