@@ -44,6 +44,13 @@ __________
 * **14:15**: Stopping the [mica run](https://github.com/antoinebelley/Phys_359/blob/master/Lab2_Mossbauer/mica0212.txt).
 * **14:30**: Starting measurement with the stainless steel foil.
 * **15:26**: Ending measurement with stainless steel foil.
-* **15:27**: Placing in the mica plate. We are doing it first for the plate vertically placed. I.e no angle.
+* **15:27**: Placing in the mica plate. We are doing it first run for the plate vertically placed. I.e no angle.
+
+14/02/2020
+__________
+
+* **13:10**: Stopping the  first run for the plate vertically placed. I.e no angle.
+* **13:11**: Starting measurement with the mica plate oblique.
+
 
 
