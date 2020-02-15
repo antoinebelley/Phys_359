@@ -32,7 +32,7 @@ __________
 
 * **14:06**: Stopping the run for the [ferric fluoride](https://github.com/antoinebelley/Phys_359/blob/master/Lab2_Mossbauer/ferricfluoride.txt) sample. Seem that we have a low count number. We decided to bring the source closer to get higher level of couts.
 
-* **14:20**: Starting analysis of the calibration data. We fit some Lorentzian and get the peak values. Then from a MIT paper we find the energy transitions of Fe 57. Good explanation on how to do can be found in [Caltech lab manual](http://www.sophphx.caltech.edu/Physics_7/Experiment_29.pdf). The real value of the lines in velocity are found [here](https://iopscience.iop.org/article/10.1088/0953-8984/1/9/005/pdf).
+* **14:20**: Starting analysis of the calibration data. We fit some Lorentzian and get the peak values. Then from a MIT paper we find the energy transitions of Fe 57. Good explanation on how to do can be found in [Caltech lab manual](http://www.sophphx.caltech.edu/Physics_7/Experiment_29.pdf). The real value of the lines in velocity are found [here](https://aip.scitation.org/doi/pdf/10.1063/1.1659777?class=pdf).
 
 * **15:59**: Started the mica run.
 
