@@ -53,4 +53,11 @@ __________
 * **13:11**: Starting measurement with the mica plate oblique.
 
 
+17/02/2020
+__________
+
+* **13:45**: Stopping the with the mica plate oblique.
+* **14:00**: Preparing the ferric amonium liquid sample. We measured 80.3 pm 0.1 mg of powder using Robert's scale. 
+* **14:13**: Filling the holder with water to determine volume. We measured 3.8 pm 0.1 ml using the seringe. Making a solution with 3.8 ml and 80.3 mg to put in the holder.
+* **14:16**: Placing the liquid sample in front of the source. I leaks a bit, we hope it won't be too much... Use some wood piece to raise it a bit so that it is more aligned with the source.
 
