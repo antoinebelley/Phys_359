@@ -61,3 +61,9 @@ __________
 * **14:13**: Filling the holder with water to determine volume. We measured 3.8 pm 0.1 ml using the seringe. Making a solution with 3.8 ml and 80.3 mg to put in the holder.
 * **14:16**: Placing the liquid sample in front of the source. I leaks a bit, we hope it won't be too much... Use some wood piece to raise it a bit so that it is more aligned with the source.
 
+18/02/2020
+__________
+
+* **14:53**: Removed the ferric amonium liquid sample.
+* **14:53**: Starting data acquisition for Ferrous Ammonium Sulfate (oi0546)
+
