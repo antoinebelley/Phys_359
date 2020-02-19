@@ -67,3 +67,15 @@ __________
 * **14:53**: Removed the ferric amonium liquid sample.
 * **14:53**: Starting data acquisition for Ferrous Ammonium Sulfate (oi0546)
 
+19/02/2020
+__________
+* **13:41**: Removing the Ferrous Ammonium Sulfate (oi0546) sample. We will now proceed to analyze the frozen ferric amonium sample. We started by refilling the holder as it emptied a bit since monday to insure that the full window is covered (should still have same concentration).
+
+* **13:55**: We pour liquid nitrogen in the thermos and put the sample holder in so that thermal conduction via the metal freezes the solution. We put a stirofoame cover crafted with love on top. We let the liquid freeze and add up some liquid again (its evaporating fast). Refilling the thermos with liquid nitrogen as it empties out.
+
+* **17:04**: After many hours of adding liquid nitrogen, we finally see the peaks (but barely)!
+
+* **17:15**: Removing frozen sample and adding the hematite sample to analyze.
+
+
+
