@@ -78,4 +78,15 @@ __________
 * **17:15**: Removing frozen sample and adding the hematite sample to analyze.
 
 
+21/02/2020
+__________
+
+* **13:55**: Removing the hematite sample. We want to try setting up the oven.
+
+* **14:06**: We've changed thermocouple and placed both the sample and the thermocouple approximately at the center of the oven. Used the wood block to place the oven at the right height.
+
+* **14:21**: Will put the sample at room temperature for the weekend and heat it up next week. We warmed up the oven a bit when figuring out how it works so we are wainting for it to cool down.
+
+
+
 
