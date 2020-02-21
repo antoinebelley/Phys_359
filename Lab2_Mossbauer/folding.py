@@ -42,7 +42,7 @@ def fold_strain(filename, middle = 256):
 
 	return channels, new_strain
 
-filename = 'stainlesssteel.txt'
+filename = 'micaplatetilted0217.txt'
 x,y = fold_strain(filename)
 
 plt.clf()
