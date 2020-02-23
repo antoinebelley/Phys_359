@@ -42,14 +42,14 @@ class MossbauerModel:
 
 	def model(self,isomershift = True, quad = False, Zeeman = False):
 		if isomershift == True and quad == False and Zeeman == False:
-			def model(x,u,sf, Ea):
+			def model(x,sf,c, Ea, A):
 				shift = self.isomer_shift(Ea)
-				return Lorentzian(x, (u-shift), sf)
+				return Lorentzian(x, -shift, sf,A)+c
 		elif isomershift == True and quad == True and Zeeman == False:
-			def model(x,u,sf, Ea, QV):
+			def model(x,sf,c, Ea, QV, A):
 				shift = self.isomer_shift(Ea)
 				EQ = self.quadrupole_split(QV)
-				return Lorentzian(x, (u-shift-EQ), sf)+Lorentzian(x, (u-shift+EQ), sf)
+				return Lorentzian(x, -shift-EQ, sf,A)+Lorentzian(x, -shift+EQ, sf,A)+c
 		elif isomershift == True and quad == False and Zeeman == True:
 			def model(x,sf,c,Ea,g2,B,A1,A2,A3):
 				shift = self.isomer_shift(Ea)
@@ -83,27 +83,21 @@ class MossbauerModel:
 				zeeman = (g2*-3/2 - g*-1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A1)
 				zeeman = (g2*-1/2 - g*-1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A2)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A2)
 				zeeman = (g2*1/2 - g*-1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A3)
 				zeeman = (g2*-1/2 - g*1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A3)
 				zeeman = (g2*1/2 - g*1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A2)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A2)
 				zeeman = (g2*3/2 - g*1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A1)
 
 				return mod+c
 

@@ -14,7 +14,7 @@ x =np.linspace(peak_found[0], peak_found[-1], 100)
 fit = lambda x: np.polyval(p,x)
 
 
-print(fit(peak_found))
+# print(fit(peak_found))
 
 
-print(np.sum(((fit(peak_found)-peak_real)**2)))
+# print(np.sum(((fit(peak_found)-peak_real)**2)))
