@@ -87,6 +87,14 @@ __________
 
 * **14:21**: Will put the sample at room temperature for the weekend and heat it up next week. We warmed up the oven a bit when figuring out how it works so we are wainting for it to cool down.
 
+24/02/2020
+__________
+
+* **13:45**: Stopping the run for the sample at room temperature. The spectrum of the samples after we did the frozen sample seems to have a shifted center for some reasons (both the one we just removed and the hematite sample
+
+* **14:30**: Doing a second calibration (iron) run to try to figure out the shifting problem.
+
+
 
 
 

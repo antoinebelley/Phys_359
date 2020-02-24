@@ -14,7 +14,7 @@ y = data[:,1][1:]
 yerr = np.sqrt(y)
 err_x = np.sqrt((6e-5*x)**2 +0.009**2)
 
-p0=[0.1,np.max(y), 14399.999966,14399.999966,0.18088/-1.752, 40000,2.88e4, 2.879999997e4, 1e3, 1e3, 1e3, 2e4]
+p0=[0.1,np.max(y), 14400,14400,0.18088/-1.752, 40000,2.88e4, 2.88e4, 1e3, 1e3, 1e3, 2e4]
 
 func = MossbauerModel(Zeeman=True, quad=True).mod
 func2 = MossbauerModel(quad=True).mod
@@ -23,7 +23,7 @@ def new_func(x_arr, sf, c, is1, is2, g2,B1, qs1, qs2, a1,a2,a3,a4):
 	return (func(x_arr, sf,c, is1,g2,B1,qs1,a1,a2,a3)+func2(x_arr,sf,c,is2,qs2,a4))/2
 	
 
-p,pcov = curve_fit(new_func,x,y, p0=p0, bounds=([0,2.6e6,14399.999960,14399.999960,-1,0,2.799999999999999999e4, 2.79e4,1e2,1e2,1e2, 1e2],[0.4, 2.7e6, 14399.999969,14399.999969,0,1e9, 2.88000000000001e4,2.88e4,np.inf, np.inf,np.inf, np.inf]), sigma = yerr)
+p,pcov = curve_fit(new_func,x,y, p0=p0, bounds=([0,2.6e6,14399.9999,14399.999,-1,0,2.799999999999999999e4, 2.79e4,1e2,1e2,1e2, 1e2],[0.4, 2.7e6, 14400.00001,14400.00001,0,1e9, 2.88000000001e4,2.8800001e4,np.inf, np.inf,np.inf, np.inf]), sigma = yerr)
 for i in range(len(p)):
 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(-10,10,10000000)
@@ -65,5 +65,5 @@ ax2.yaxis.set_minor_locator(AutoMinorLocator())
 ax2.set_xlabel('Velocity (mm/s)', size = 24)
 ax2.set_ylabel('Data-Fit (Counts)', size = 24)
 ax2.legend( prop={'size': 20})
-#plt.show()
-plt.savefig('Fit_fluoride.png',bbox_inches='tight')
+plt.show()
+#plt.savefig('Fit_fluoride.png',bbox_inches='tight')
