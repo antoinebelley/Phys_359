@@ -28,7 +28,8 @@ class MossbauerModel:
 		
 
 	def quadrupole_split(self, QV, n=0):
-		EQ = QV/2*np.sqrt(1+n**2/3)
+		#EQ = QV/2*np.sqrt(1+n**2/3)
+		EQ=QV
 		return self.convert_E_to_v(EQ) 
 
 	def isomer_shift(self, Ea):
@@ -38,7 +39,7 @@ class MossbauerModel:
 		return self.convert_E_to_v(-g*ub*Beff*ml)
 
 	def convert_E_to_v(self, E):
-		return c*(self.Es - E)/E
+		return (self.Es - E)/E
 
 	def model(self,isomershift = True, quad = False, Zeeman = False):
 		if isomershift == True and quad == False and Zeeman == False:
@@ -105,12 +106,12 @@ class MossbauerModel:
 
 
 
-# x = np.linspace(-100,100,1000000)
-# func = MossbauerModel(Zeeman=True, quad=True).mod
+'''x = np.linspace(-100,100,1000000)
+func = MossbauerModel(quad=True).mod
 
-# y = func(x,0.1,0, 1.44e+04,(0.18088)/(-1.752), 33000, 28.8000012e3, 1e2, 50, 20)
-# plt.plot(x,y)
-# plt.show()
+y = func(x,0.1,0,1.3e4, 1.80e6, 1e3)
+plt.plot(x,y)
+plt.show()'''
 
 
 
