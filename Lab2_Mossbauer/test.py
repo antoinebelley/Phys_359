@@ -48,9 +48,9 @@ x,y = fold_strain(filename)
 # plt.show()
 
 
-# new_data = np.array([x,y]).transpose()
+new_data = np.array([x,y]).transpose()
 
-# output = 'folded_data_'+filename
-# print(output)
+output = 'folded_data_'+filename
+print(output)
 #save the data
-# np.savetxt(output, new_data, delimiter=',')
+np.savetxt(output, new_data, delimiter=',')

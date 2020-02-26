@@ -7,29 +7,36 @@ import matplotlib.gridspec as gridspec
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 
-data = np.loadtxt('folded_data_Ironfoil0207.txt', delimiter=',')
+data = np.loadtxt('folded_data_micaplatetilted0217.txt', delimiter=',')
 
 x = fit(data[:,0][1:])
-y = data[:,1][1:]
-yerr = np.sqrt(y)   
-
+y = np.flip(data[:,1][1:])
+yerr = np.sqrt(y)
 err_x = np.sqrt((6e-5*x)**2 +0.009**2)
 
-p0=[0.01,np.max(y), 14.4000000002,0.18088/1.752,35,28.79999999962, 1e3, 1e4, 5e3]
 
-func = MossbauerModel(Zeeman=True, quad=True).mod
+# plt.plot(x,y)
+# plt.show()
+# exit(1)
 
-p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,1.40e6,14.399999999999,0,0,28.799999, 1e1,1e1,1e1],[0.6, np.inf, 14.400000001,1,np.inf,28.8000000,np.inf, np.inf,np.inf]), sigma = yerr)
+# flat line background level
+flat = np.max(y)
+
+p0=[1, flat, 8000, -100000, 2.6*np.pi/9, 125000]
+
+func = MossbauerModel(Zeeman=False, quad=False, quad_angle=True).mod
+
+p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0, flat-5000,1000,-200000, 2.6*np.pi/9 - 0.01, 0],[2, flat+5000, 1.44000000001e4, 200000, np.pi/2, 150000]), sigma = yerr)
 for i in range(len(p)):
 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(-10,10,10000000)
 
-# plt.plot(x_arr,func(x_arr,0.1,np.max(y), 14.4,(0.18088)/(1.752),33,28.8, 1e3, 5e3, 2e3))
-#plt.plot(x_arr,func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7]))
+# plt.plot(x_arr,func(x_arr,0.1,np.max(y), 1.44e+04,(0.18088)/(-1.752), 33000, 1e2, 50, 20))
+# plt.plot(x_arr,func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7]))
 # plt.show()
 
-fit = func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8])
-fit_point = func(x,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8])
+fit = func(x_arr,p[0],p[1],p[2],p[3], p[4], p[5])
+fit_point = func(x,p[0],p[1],p[2],p[3], p[4], p[5])
 res = (y-fit_point)
 chi_squared = np.sum(res**2/yerr**2)/(len(x)-8)
 print(chi_squared)
@@ -64,5 +71,5 @@ ax2.yaxis.set_minor_locator(AutoMinorLocator())
 ax2.set_xlabel('Velocity (mm/s)', size = 24)
 ax2.set_ylabel('Data-Fit (Counts)', size = 24)
 ax2.legend( prop={'size': 20})
-plt.show()
-#plt.savefig('Fit_iron.png',bbox_inches='tight')
+#plt.show()
+plt.savefig('Fit_micaPowder_Tilted.png',bbox_inches='tight')

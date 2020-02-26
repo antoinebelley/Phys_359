@@ -7,19 +7,19 @@ import matplotlib.gridspec as gridspec
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 
-data = np.loadtxt('folded_data_FeNH3SO4.txt', delimiter=',')
+data = np.loadtxt('True_folded_data_FeNH3SO4.txt', delimiter=',')
 
-x = fit(data[:,0][1:])
-y = data[:,1][1:]
+x = fit(data[:,0][:-1])
+y = data[:,1][:-1]
 yerr = np.sqrt(y)
 
 err_x = np.sqrt((6e-5*x)**2 +0.009**2)
 
-p0=[0.16,np.max(y), 1.440000007e04, 1.440000004e4, 7e3]
+p0=[0.06,np.max(y), 14.39999999995, 28.80000000008757535, 1.5e3]
 
 func = MossbauerModel(quad=True).mod
 
-p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,1.87e6,1.440000003e4,1.440000001e4,1e1],[0.5, 1.9e6, 1.440000009e4,1.440000008e4,np.inf]), sigma = yerr)
+p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0.05,1.87e6,14.39999999992,28.800000000005,1e1],[0.2, 1.9e6, 14.39999999997,28.8000000001,np.inf]), sigma = yerr)
 for i in range(len(p)):
 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(-10,10,10000000)
@@ -69,8 +69,10 @@ plt.show()
 
 def convert_E_to_v(c,Es, E):
 		return c*(E -Es)/Es
-Es  = 14.4e3
-c=3e8
+Es  = 14.4
+c=299792458*1e3
 isomer=convert_E_to_v(c,Es, p[2])
-BestEQ=convert_E_to_v(c,Es, p[3])*2
-print(isomer,BestEQ)
+BestEQ=convert_E_to_v(c,Es, p[3]/2)*2
+err=convert_E_to_v(c,Es,np.sqrt(pcov[3,3])+Es)
+print(isomer,BestEQ,err)
+plt.savefig('Fit_FeNH3SO4.png',bbox_inches='tight')
