@@ -176,12 +176,10 @@ class MossbauerModel:
 			def model(x,sf,c,Ea,g2,B,QV,A1,A2,A3):
 				shift = self.isomer_shift(Ea)
 				quadshift = self.quadrupole_split(QV)
-				print(shift, quadshift)
 				mod = 0
 				zeeman = (g2*-3/2 - g*-1/2)*ub*B+self.Es
 
 				zeeman = self.convert_E_to_v(zeeman)
-				print(zeeman)
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
 				zeeman = (g2*-1/2 - g*-1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
