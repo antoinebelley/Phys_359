@@ -33,8 +33,9 @@ def fold_strain(filename, middle = 256):
 	data_2 = data[middle:]
 	
 
-	#flip the second half
-	data_2 = np.flip(data_2)
+	#flip the first half 
+	# !!! folding flipped !!!
+	data_1 = np.flip(data_1)
 
 	# add up
 	new_strain = data_1 + data_2
@@ -51,7 +52,7 @@ plt.show()
 
 new_data = np.array([x,y]).transpose()
 
-output = 'folded_data_'+filename
+output = 'True_folded_data_'+filename
 print(output)
 #save the data
 np.savetxt(output, new_data, delimiter=',')
