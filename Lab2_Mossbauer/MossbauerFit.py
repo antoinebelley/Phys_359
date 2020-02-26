@@ -22,14 +22,21 @@ def Lorentzian(x, u ,sig,A):
 
 class MossbauerModel:
 
-	def __init__(self, isomershift= True, quad = False, Zeeman=False):
+	def __init__(self, isomershift= True, quad = False, Zeeman=False, quad_angle = False):
 		self.Es  = 14.4e3
-		self.mod = self.model(isomershift = isomershift, quad = quad, Zeeman = Zeeman)
+		self.mod = self.model(isomershift = isomershift, quad = quad, Zeeman = Zeeman, quad_angle = quad_angle)
 		
 
 	def quadrupole_split(self, QV, n=0):
 		EQ = QV/2*np.sqrt(1+n**2/3)
 		return self.convert_E_to_v(EQ) 
+
+	def quadrupole_angle(self, QV, theta, n=0):
+		EQ = QV/2*np.sqrt(1+n**2/3)
+		# we compute the ratio of the peaks due to the angle
+		ratio = (1 + (np.cos(theta))**2)/((2/3) + (np.sin(theta))**2)
+		return ratio, self.convert_E_to_v(EQ)
+
 
 	def isomer_shift(self, Ea):
 		return self.convert_E_to_v(Ea)
@@ -38,19 +45,32 @@ class MossbauerModel:
 		return self.convert_E_to_v(-g*ub*Beff*ml)
 
 	def convert_E_to_v(self, E):
-		return c*(self.Es - E)/E
+		return c*(E-self.Es)/self.Es
 
-	def model(self,isomershift = True, quad = False, Zeeman = False):
-		if isomershift == True and quad == False and Zeeman == False:
+	def model(self,isomershift = True, quad = False, Zeeman = False, quad_angle = False):
+		if isomershift == True and quad == False and Zeeman == False and quad_angle == False:
 			def model(x,sf,c, Ea, A):
 				shift = self.isomer_shift(Ea)
 				return Lorentzian(x, -shift, sf,A)+c
-		elif isomershift == True and quad == True and Zeeman == False:
+		elif isomershift == True and quad == True and Zeeman == False and quad_angle == False:
 			def model(x,sf,c, Ea, QV, A):
 				shift = self.isomer_shift(Ea)
+				print(shift)
 				EQ = self.quadrupole_split(QV)
+				print(EQ)
 				return Lorentzian(x, -shift-EQ, sf,A)+Lorentzian(x, -shift+EQ, sf,A)+c
-		elif isomershift == True and quad == False and Zeeman == True:
+
+		elif isomershift == True and quad == False and Zeeman == False and quad_angle == True:
+			def model(x,sf,c,Ea,QV,angle,A):
+				shift = self.isomer_shift(Ea)
+				#print(shift)
+				ratio, EQ = self.quadrupole_angle(QV, angle)
+				#print(ratio, EQ)
+				#print(-shift-EQ, -shift+EQ)
+				return Lorentzian(x, -shift-EQ, sf,A)+Lorentzian(x, -shift+EQ, sf,A/ratio)+c
+
+
+		elif isomershift == True and quad == False and Zeeman == True and quad_angle == False:
 			def model(x,sf,c,Ea,g2,B,A1,A2,A3):
 				shift = self.isomer_shift(Ea)
 				mod = 0
@@ -75,7 +95,7 @@ class MossbauerModel:
 
 				return mod+c
 
-		elif isomershift == True and quad == True and Zeeman == True:
+		elif isomershift == True and quad == True and Zeeman == True and quad_angle == False:
 			def model(x,sf,c,Ea,g2,B,QV,A1,A2,A3):
 				shift = self.isomer_shift(Ea)
 				quadshift = self.quadrupole_split(QV)
@@ -105,10 +125,10 @@ class MossbauerModel:
 
 
 
-# x = np.linspace(-100,100,1000000)
-# func = MossbauerModel(Zeeman=True, quad=True).mod
+# x = np.linspace(-10,10,1000000)
+# func = MossbauerModel(Zeeman=False, quad=False, quad_angle=True).mod
 
-# y = func(x,0.1,0, 1.44e+04,(0.18088)/(-1.752), 33000, 28.8000012e3, 1e2, 50, 20)
+# y = func(x, 0.2, 5.25e6, 14399.999991, 28800.00000011, 0.4, 12500)
 # plt.plot(x,y)
 # plt.show()
 
