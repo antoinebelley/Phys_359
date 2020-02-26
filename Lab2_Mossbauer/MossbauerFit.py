@@ -110,7 +110,7 @@ class MossbauerModel:
 '''x = np.linspace(-100,100,1000000)
 func = MossbauerModel(quad=True).mod
 
-y = func(x,0.1,0,1.3e4, 1.80e6, 1e3)
+y = func(x,0.1,0,1.44e4, 1.4400001e4, 1e3)
 plt.plot(x,y)
 plt.show()'''
 
