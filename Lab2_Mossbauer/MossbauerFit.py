@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #Defines conestant that will be used:
-c = 3e8
+c = 299792458
 g = 0.18088
 ub = 3.152451e-8
 
@@ -20,6 +20,88 @@ def PeakIntensity(x, u, sf, n = 0):
 def Lorentzian(x, u ,sig,A):
 	return -sig*2*A/((x-u)**2+sig**2)
 
+# class MossbauerModel:
+
+# 	def __init__(self, isomershift= True, quad = False, Zeeman=False):
+# 		self.Es  = 14.4e3
+# 		self.mod = self.model(isomershift = isomershift, quad = quad, Zeeman = Zeeman)
+		
+
+# 	def quadrupole_split(self, QV, n=0):
+# 		EQ = QV/2*np.sqrt(1+n**2/3)
+# 		return self.convert_E_to_v(EQ) 
+
+# 	def isomer_shift(self, Ea):
+# 		return self.convert_E_to_v(Ea)
+
+# 	def convert_E_to_v(self, E):
+# 		return c*(E - self.Es)/self.Es
+
+# 	def model(self,isomershift = True, quad = False, Zeeman = False):
+# 		if isomershift == True and quad == False and Zeeman == False:
+# 			def model(x,sf,c, Ea, A):
+# 				shift = self.isomer_shift(Ea)
+# 				return Lorentzian(x, -shift, sf,A)+c
+# 		elif isomershift == True and quad == True and Zeeman == False:
+# 			def model(x,sf,c, Ea, QV, A):
+# 				shift = self.isomer_shift(Ea)
+# 				EQ = self.quadrupole_split(QV)
+# 				return Lorentzian(x, -shift-EQ, sf,A)+Lorentzian(x, -shift+EQ, sf,A)+c
+# 		elif isomershift == True and quad == False and Zeeman == True:
+# 			def model(x,sf,c,Ea,g2,B,A1,A2,A3):
+# 				shift = self.isomer_shift(Ea)
+# 				mod = 0
+# 				zeeman = (g2*-3/2 - g*-1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman), sf, A1)
+# 				zeeman = (g2*-1/2 - g*-1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman), sf, A2)
+# 				zeeman = (g2*1/2 - g*-1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman), sf, A3)
+# 				zeeman = (g2*-1/2 - g*1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman), sf, A3)
+# 				zeeman = (g2*1/2 - g*1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman), sf, A2)
+# 				zeeman = (g2*3/2 - g*1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman), sf, A1)
+
+# 				return mod+c
+
+# 		elif isomershift == True and quad == True and Zeeman == True:
+# 			def model(x,sf,c,Ea,g2,B,QV,A1,A2,A3):
+# 				shift = self.isomer_shift(Ea)
+# 				quadshift = self.quadrupole_split(QV)
+# 				mod = 0
+# 				zeeman = (g2*-3/2 - g*-1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
+# 				zeeman = (g2*-1/2 - g*-1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A2)
+# 				zeeman = (g2*1/2 - g*-1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
+# 				zeeman = (g2*-1/2 - g*1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A3)
+# 				zeeman = (g2*1/2 - g*1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A2)
+# 				zeeman = (g2*3/2 - g*1/2)*ub*B+self.Es
+# 				zeeman = self.convert_E_to_v(zeeman)
+# 				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A1)
+
+# 				return mod+c
+
+# 		return model
+
+
+
 class MossbauerModel:
 
 	def __init__(self, isomershift= True, quad = False, Zeeman=False):
@@ -34,11 +116,8 @@ class MossbauerModel:
 	def isomer_shift(self, Ea):
 		return self.convert_E_to_v(Ea)
 
-	def zeeman_speed_one_peak(self, ml, Beff):
-		return self.convert_E_to_v(-g*ub*Beff*ml)
-
 	def convert_E_to_v(self, E):
-		return c*(E - self.Es)/self.Es
+		return 1e3*c*(E - self.Es)/self.Es
 
 	def model(self,isomershift = True, quad = False, Zeeman = False):
 		if isomershift == True and quad == False and Zeeman == False:
@@ -80,28 +159,29 @@ class MossbauerModel:
 				shift = self.isomer_shift(Ea)
 				quadshift = self.quadrupole_split(QV)
 				mod = 0
-				zeeman = (g2*-3/2 - g*-1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
+				zeeman = (g2*-3/2 - g*-1/2)*ub*B
+				zeeman = self.convert_E_to_v(zeeman)+self.Es
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
-				zeeman = (g2*-1/2 - g*-1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
+				zeeman = (g2*-1/2 - g*-1/2)*ub*B
+				zeeman = self.convert_E_to_v(zeeman)+self.Es
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A2)
-				zeeman = (g2*1/2 - g*-1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
+				zeeman = (g2*1/2 - g*-1/2)*ub*B
+				zeeman = self.convert_E_to_v(zeeman)+self.Es
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
-				zeeman = (g2*-1/2 - g*1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
+				zeeman = (g2*-1/2 - g*1/2)*ub*B
+				zeeman = self.convert_E_to_v(zeeman)+self.Es
 				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A3)
-				zeeman = (g2*1/2 - g*1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
+				zeeman = (g2*1/2 - g*1/2)*ub*B
+				zeeman = self.convert_E_to_v(zeeman)+self.Es
 				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A2)
-				zeeman = (g2*3/2 - g*1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
+				zeeman = (g2*3/2 - g*1/2)*ub*B
+				zeeman = self.convert_E_to_v(zeeman)+self.Es
 				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A1)
 
 				return mod+c
 
 		return model
+
 
 
 

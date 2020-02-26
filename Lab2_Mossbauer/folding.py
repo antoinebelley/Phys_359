@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 # import the peak values for the Fe57 assuming csv format
-peaks_errors = np.loadtxt('iron_Loc.txt', delimiter=',')
+peaks_errors = np.loadtxt('YFeO3_250c.txt', delimiter=' ')
 
 peaks  = peaks_errors[:,0]
 errors = peaks_errors[:,1]
@@ -42,7 +42,7 @@ def fold_strain(filename, middle = 256):
 
 	return channels, new_strain
 
-filename = 'micaplatetilted0217.txt'
+filename = 'YFeO3_250c.txt'
 x,y = fold_strain(filename)
 
 plt.clf()
