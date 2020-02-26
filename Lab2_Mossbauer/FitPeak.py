@@ -120,7 +120,7 @@ def print_best_values(spec, output):
 
 
 
-data = np.loadtxt('Ironfoil0207.txt')
+data = np.loadtxt('iron0224.txt')
 x = data[:,0][:-1]
 y = -data[:,1][:-1]+np.max(data[:,1])
 
@@ -128,47 +128,47 @@ Fit_Lorentzian(x,y)
 
 
 
-def Fit_Lorentzian(x,y):
-    spec = {
-                'x': x,
-                'y': y,
-                'model': [{'type': 'LorentzianModel',
-                            'params': {'center': 46, 'sigma':1, 'amplitude':20000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 75, 'sigma':1, 'amplitude':20000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 120, 'sigma':1, 'amplitude':80000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 129, 'sigma':1, 'amplitude':80000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 168, 'sigma':1, 'amplitude':20000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 199, 'sigma':1, 'amplitude':20000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 313, 'sigma':1, 'amplitude':20000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 338, 'sigma':3, 'amplitude':30000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 384, 'sigma':1,'amplitude':80000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 391, 'sigma':1, 'amplitude':80000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 429, 'sigma':1, 'amplitude':180000}},
-                          {'type': 'LorentzianModel',
-                          'params': {'center': 465, 'sigma':1, 'amplitude':20000}}]
-            }
-    #peaks_found = update_spec_from_peaks(spec, [0,1,2,3,4,5,6,7,8,9,10,11], peak_widths=(15,))
-    model, params = generate_model(spec)
-    output = model.fit(spec['y'], params, x=spec['x'])
-    #components = output.eval_components(x=spec['x'])
-    fig, gridspec = output.plot(data_kws={'markersize':  1})
-    plt.show()
-    print_best_values(spec,output)
+# def Fit_Lorentzian(x,y):
+#     spec = {
+#                 'x': x,
+#                 'y': y,
+#                 'model': [{'type': 'LorentzianModel',
+#                             'params': {'center': 46, 'sigma':1, 'amplitude':20000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 75, 'sigma':1, 'amplitude':20000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 120, 'sigma':1, 'amplitude':80000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 129, 'sigma':1, 'amplitude':80000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 168, 'sigma':1, 'amplitude':20000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 199, 'sigma':1, 'amplitude':20000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 313, 'sigma':1, 'amplitude':20000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 338, 'sigma':3, 'amplitude':30000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 384, 'sigma':1,'amplitude':80000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 391, 'sigma':1, 'amplitude':80000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 429, 'sigma':1, 'amplitude':180000}},
+#                           {'type': 'LorentzianModel',
+#                           'params': {'center': 465, 'sigma':1, 'amplitude':20000}}]
+#             }
+#     #peaks_found = update_spec_from_peaks(spec, [0,1,2,3,4,5,6,7,8,9,10,11], peak_widths=(15,))
+#     model, params = generate_model(spec)
+#     output = model.fit(spec['y'], params, x=spec['x'])
+#     #components = output.eval_components(x=spec['x'])
+#     fig, gridspec = output.plot(data_kws={'markersize':  1})
+#     plt.show()
+#     print_best_values(spec,output)
 
-data = np.loadtxt('ferricfluoride.txt')
-x = data[:,0][:-1]
-y = -data[:,1][:-1]+np.max(data[:,1])
+# data = np.loadtxt('ferricfluoride.txt')
+# x = data[:,0][:-1]
+# y = -data[:,1][:-1]+np.max(data[:,1])
 
-Fit_Lorentzian(x,y)
+# Fit_Lorentzian(x,y)
 
 

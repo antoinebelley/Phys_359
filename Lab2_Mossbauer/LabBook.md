@@ -87,6 +87,26 @@ __________
 
 * **14:21**: Will put the sample at room temperature for the weekend and heat it up next week. We warmed up the oven a bit when figuring out how it works so we are wainting for it to cool down.
 
+24/02/2020
+__________
+
+* **13:45**: Stopping the run for the sample at room temperature. The spectrum of the samples after we did the frozen sample seems to have a shifted center for some reasons (both the one we just removed and the hematite sample
+
+* **14:30**: Doing a second calibration (iron) run to try to figure out the shifting problem.
+
+* **15:20**: Iron is ok, we will start the run for YFeO3 when heated. We got a variac from Saverio so that we don't melt the sample. 
+
+* **15:57**: Starting run for YFeO3 at 206C.
 
 
+25/02/2020
+__________
 
+* **16:00**: Took the data at 208C and changed the temperature to 250C.
+
+
+26/02/2020
+__________
+
+* **1:38**: Taking the data for the 250C sample and will increase temperature to 300C.
+* **1:48**: Oven is ready, we're starting acquisition of data at 300C.

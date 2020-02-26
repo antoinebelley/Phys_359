@@ -45,7 +45,8 @@ class MossbauerModel:
 		return self.convert_E_to_v(-g*ub*Beff*ml)
 
 	def convert_E_to_v(self, E):
-		return c*(E-self.Es)/self.Es
+		return c*(E - self.Es)/self.Es
+
 
 	def model(self,isomershift = True, quad = False, Zeeman = False, quad_angle = False):
 		if isomershift == True and quad == False and Zeeman == False and quad_angle == False:
@@ -111,13 +112,13 @@ class MossbauerModel:
 				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
 				zeeman = (g2*-1/2 - g*1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
+				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A3)
 				zeeman = (g2*1/2 - g*1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A2)
+				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A2)
 				zeeman = (g2*3/2 - g*1/2)*ub*B+self.Es
 				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
+				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A1)
 
 				return mod+c
 

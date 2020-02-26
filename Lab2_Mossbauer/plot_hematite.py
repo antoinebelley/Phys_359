@@ -9,26 +9,26 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
 
 data = np.loadtxt('folded_data_hematite0221.txt', delimiter=',')
 
-x = fit(data[:,0][1:])
-y = data[:,1][1:]
+x = fit(data[:,0][:-1])
+y = data[:,1][:-1]
 yerr = np.sqrt(y)
 
 
 err_x = np.sqrt((6e-5*x)**2 +0.009**2)
 
 
-# p0=[0.1,np.max(y), 14399.99996831005,(0.18088)/(-1.752), 55000,2.879999994e4, 2e5, 2.1e5, 1e5]
+# p0=[0.1,np.max(y), 14400.000000010079,-0.09586781519054244, 55400.12587387697,28799.9999776741, 10761.804579802141, 1e4, 1e4]
 
 func = MossbauerModel(Zeeman=True, quad = True).mod
 
 
-# p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,4.85e6,14399.999968310000,-1,0,2.879999990e4,1e4,1.1e4,6e3],[1, 4.87e6, 14399.9999683101,0,1e9,2.879999999e4,np.inf, np.inf,np.inf]), sigma = yerr)
+# p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,np.max(y)-1e5,14400.00000001,-1,45000,2.879999990e4,1e4,8.e3,5e3],[1, np.max(y)+1e5, 14400.00001,0,1e9,2.879999999e4,np.inf, np.inf,np.inf]), sigma = yerr)
 # for i in range(len(p)):
 # 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(x[0],x[-1],10000000)
 
 plt.plot(x,y)
-plt.plot(x_arr,(func(x_arr,0.2,np.max(y), 14399.999966,(0.18088)/(-1.752), 51000,2.88e4, 7e3, 1e4, 4e3)))
+plt.plot(x_arr,(func(x_arr,0.2,np.max(y), 14400.00004,(0.18088)/(-1.752), 52500,2.879999999e4, 1.4e4, 0.9e4, 5e3)))
 plt.show()
 # plt.plot(x_arr,func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7]))
 # plt.show()
@@ -58,7 +58,6 @@ plt.show()
 # ax1.legend(loc=4, prop={'size': 20})
 
 
-# ax2.plot(V_PS,fit_true-B_true,'.', label='Residuals', markersize=10)
 # ax2.errorbar(x, res, yerr=yerr, fmt='none', label="Residuals")
 # ax2.axhline(color='k', linewidth=0.5)
 # ax2.tick_params(axis="both", labelsize=22)
@@ -70,4 +69,4 @@ plt.show()
 # ax2.set_ylabel('Data-Fit (Counts)', size = 24)
 # ax2.legend( prop={'size': 20})
 # plt.show()
-# plt.savefig('Fit_iron.png',bbox_inches='tight')
+# # plt.savefig('Fit_iron.png',bbox_inches='tight')

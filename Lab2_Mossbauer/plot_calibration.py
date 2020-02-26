@@ -19,7 +19,7 @@ p0=[0.01,np.max(y), 1.44e+04,0.18088/-1.752, 33000, 1e3, 4e2, 1e2]
 
 func = MossbauerModel(Zeeman=True).mod
 
-p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,1.41e6,1.439e4,-1,0,1e2,1e2,1e2],[0.4, 1.43e6, 1.44000000001e4,0,1e9,np.inf, np.inf,np.inf]), sigma = yerr)
+p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,1.41e6,1.43999999999e4,-1,0,1e2,1e2,1e2],[0.4, 1.43e6, 1.4400001e4,0,1e9,np.inf, np.inf,np.inf]), sigma = yerr)
 for i in range(len(p)):
 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(-10,10,10000000)
@@ -64,5 +64,5 @@ ax2.yaxis.set_minor_locator(AutoMinorLocator())
 ax2.set_xlabel('Velocity (mm/s)', size = 24)
 ax2.set_ylabel('Data-Fit (Counts)', size = 24)
 ax2.legend( prop={'size': 20})
-plt.show()
-#plt.savefig('Fit_iron.png',bbox_inches='tight')
+#plt.show()
+plt.savefig('Fit_iron.png',bbox_inches='tight')
