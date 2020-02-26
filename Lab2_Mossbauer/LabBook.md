@@ -109,4 +109,4 @@ __________
 __________
 
 * **1:38**: Taking the data for the 250C sample and will increase temperature to 300C.
-
+* **1:48**: Oven is ready, we're starting acquisition of data at 300C.

@@ -15,17 +15,17 @@ yerr = np.sqrt(y)
 
 err_x = np.sqrt((6e-5*x)**2 +0.009**2)
 
-# p0=[0.1,np.max(y), 14400.00000152558,0.18088/1.752, 33,28799.999563508678, 1e4, 1e4, 1e4]
+p0=[0.1,np.max(y), 14.400000000000001,0.18088/1.752, 33,28.799999563508678, 1e4, 1e4, 1e4]
 
 func = MossbauerModel(Zeeman=True, quad=True).mod
 
-# p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,1.41e6,1.439999999999e4,0,30,2.8799999e4, 1e3,1e3,1e3],[0.2, np.inf, 1.4400000005e4,1,10e4,2.880000001e4,np.inf, np.inf,np.inf]), sigma = yerr)
+# p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0,1.41e6,14.39,0,30,28.799999, 1e3,1e3,1e3],[0.2, np.inf, 14.41,1,10e4,28.81,np.inf, np.inf,np.inf]), sigma = yerr)
 # for i in range(len(p)):
 # 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(-10,10,10000000)
 
-plt.plot(x_arr,func(x_arr,0.1,np.max(y), 1.44e+04,(0.18088)/(1.752),2.88e4, 33, 1e2, 50, 20))
-# plt.plot(x_arr,func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7]))
+plt.plot(x_arr,func(x_arr,0.1,np.max(y), 14.4,(0.18088)/(1.752),33,28.8, 1e3, 5e3, 2e3))
+#plt.plot(x_arr,func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7]))
 plt.show()
 
 # fit = func(x_arr,p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8])
