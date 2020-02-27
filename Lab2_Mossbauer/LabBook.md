@@ -114,3 +114,4 @@ __________
 27/02/2020
 __________
 * **10:54**: Uploaded data for 300C
+* **11:05**: Starting acquisition of data at 378C
