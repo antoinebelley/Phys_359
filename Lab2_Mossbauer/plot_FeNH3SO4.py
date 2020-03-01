@@ -74,5 +74,6 @@ c=299792458*1e3
 isomer=convert_E_to_v(c,Es, p[2])
 BestEQ=convert_E_to_v(c,Es, p[3]/2)*2
 err=convert_E_to_v(c,Es,np.sqrt(pcov[3,3])+Es)
-print(isomer,BestEQ,err)
+err2=convert_E_to_v(c,Es,np.sqrt(pcov[2,2])+Es)
+print(isomer,BestEQ,err,err2)
 plt.savefig('Fit_FeNH3SO4.png',bbox_inches='tight')

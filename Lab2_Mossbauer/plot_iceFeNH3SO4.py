@@ -9,8 +9,8 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
 
 data = np.loadtxt('True_folded_data_IcedFeNH3.txt', delimiter=',')
 
-x = fit(data[:,0][1:])
-y = data[:,1][1:]
+x = fit(data[:,0][:-1])
+y = data[:,1][:-1]
 yerr = np.sqrt(y)
 
 err_x = np.sqrt((6e-5*x)**2 +0.009**2)
@@ -64,6 +64,14 @@ ax2.yaxis.set_minor_locator(AutoMinorLocator())
 ax2.set_xlabel('Velocity (mm/s)', size = 24)
 ax2.set_ylabel('Data-Fit (Counts)', size = 24)
 ax2.legend( prop={'size': 20})
-plt.savefig('Fit_FerrousAmmoniumSulfate.png',bbox_inches='tight')
-plt.show()
 plt.savefig('Fit_iceFeNH3SO4.png',bbox_inches='tight')
+def convert_E_to_v(c,Es, E):
+		return c*(E -Es)/Es
+Es  = 14.4
+c=299792458*1e3
+isomer=convert_E_to_v(c,Es, p[2])
+BestEQ=convert_E_to_v(c,Es, p[3]/2)*2
+err=convert_E_to_v(c,Es,np.sqrt(pcov[3,3])+Es)
+err2=convert_E_to_v(c,Es,np.sqrt(pcov[2,2])+Es)
+print(isomer,BestEQ,err,err2)
+plt.show()
