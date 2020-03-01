@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #Defines conestant that will be used:
-c = 299792458*1e3
+cc = 299792458*1e3
 g = 0.18088
 ub = 3.152451e-11
-
+#g2=0.18088/1.752
 
 def PeakIntensity(x, u, sf, n = 0):
 	"""Instensity of a peaks of mossbauer spectrum according to equation 9 of
@@ -125,7 +125,7 @@ class MossbauerModel:
 		return self.convert_E_to_v(Ea)
 
 	def convert_E_to_v(self, E):
-		return c*(E - self.Es)/self.Es
+		return cc*(E - self.Es)/self.Es
 
 
 
@@ -180,25 +180,25 @@ class MossbauerModel:
 				shift = self.isomer_shift(Ea)
 				quadshift = self.quadrupole_split(QV)
 				mod = 0
-				zeeman = (g2*-3/2 - g*-1/2)*ub*B+self.Es
+				zeeman1 = cc*(g2*-3/2 - g*-1/2)*ub*B/self.Es
 
-				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A1)
-				zeeman = (g2*-1/2 - g*-1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A2)
-				zeeman = (g2*1/2 - g*-1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman+quadshift), sf, A3)
-				zeeman = (g2*-1/2 - g*1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A3)
-				zeeman = (g2*1/2 - g*1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A2)
-				zeeman = (g2*3/2 - g*1/2)*ub*B+self.Es
-				zeeman = self.convert_E_to_v(zeeman)
-				mod += Lorentzian(x, (-shift+zeeman-quadshift), sf, A1)
+				#zeeman = self.convert_E_to_v(zeeman)
+				mod += Lorentzian(x, (-shift+zeeman1+quadshift), sf, A1)
+				zeeman2 = cc*(g2*-1/2 - g*-1/2)*ub*B/self.Es
+				#zeeman = self.convert_E_to_v(zeeman)
+				mod += Lorentzian(x, (-shift+zeeman2+quadshift), sf, A2)
+				zeeman3 = cc*(g2*1/2 - g*-1/2)*ub*B/self.Es
+				#zeeman = self.convert_E_to_v(zeeman)
+				mod += Lorentzian(x, (-shift+zeeman3+quadshift), sf, A3)
+				zeeman4 = cc*(g2*-1/2 - g*1/2)*ub*B/self.Es
+				#zeeman = self.convert_E_to_v(zeeman)
+				mod += Lorentzian(x, (-shift+zeeman4-quadshift), sf, A3)
+				zeeman5 = cc*(g2*1/2 - g*1/2)*ub*B/self.Es
+				#zeeman = self.convert_E_to_v(zeeman)
+				mod += Lorentzian(x, (-shift+zeeman5-quadshift), sf, A2)
+				zeeman6 = cc*(g2*3/2 - g*1/2)*ub*B/self.Es
+				#zeeman = self.convert_E_to_v(zeeman)
+				mod += Lorentzian(x, (-shift+zeeman6-quadshift), sf, A1)
 
 				return mod+c
 

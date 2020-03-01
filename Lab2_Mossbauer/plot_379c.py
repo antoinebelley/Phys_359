@@ -7,7 +7,7 @@ import matplotlib.gridspec as gridspec
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 
-data = np.loadtxt('True_folded_data_YFeO3_room_temperature18C.txt', delimiter=',')
+data = np.loadtxt('True_folded_data_YFeO3_379c.txt', delimiter=',')
 
 x = fit(data[:,0][:-1])
 y = data[:,1][:-1]
@@ -22,7 +22,7 @@ err_x = np.sqrt((6e-5*x)**2 +0.009**2)
 # flat line background level
 
 
-p0=[0.17, np.max(y), 14.4000000000,0.18088/1.752,50.04, 28.800000000324, 4e3,7e3,8e3]
+p0=[0.14, np.max(y), 14.400000000012,0.12,15, 28.800000000084, 1e3,2e3,2e3]
 
 func = MossbauerModel(Zeeman=True, quad=True, quad_angle=False).mod
 
@@ -32,7 +32,7 @@ y_test = func(x_test, p0[0], p0[1], p0[2], p0[3], p0[4], p0[5], p0[6], p0[7], p0
 plt.plot(x_test,y_test)
 plt.show()'''
 
-p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0, 2.77e6, 14.39999999999,0,30, 28.80000000031, 1e2, 1e2,1e2],[0.2,2.783e6,14.40000000001,0.5,60,28.800000000325,1e9,1e9,9e3]), sigma = yerr)
+p,pcov = curve_fit(func,x,y, p0=p0, bounds=([0, 0.90*np.max(y), 14.400000000009,0.07,0, 28.80000000007, 5e2, 7e2,1e3],[0.17,1.1*np.max(y),14.400000000015,0.15,30,28.8000000002,1e9,1e9,1e9]), sigma = yerr)
 for i in range(len(p)):
 	print(p[i], np.sqrt(pcov[i,i]))
 x_arr = np.linspace(x[0],x[-1],10000000)
@@ -78,4 +78,4 @@ ax2.set_xlabel('Velocity (mm/s)', size = 24)
 ax2.set_ylabel('Data-Fit (Counts)', size = 24)
 ax2.legend( prop={'size': 20})
 plt.show()
-#plt.savefig('Fit_YfeO3_18.png',bbox_inches='tight')
+#plt.savefig('Fit_YfeO3_379.png',bbox_inches='tight')
