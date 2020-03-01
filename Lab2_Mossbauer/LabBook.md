@@ -115,3 +115,9 @@ __________
 __________
 * **10:54**: Uploaded data for 300C
 * **11:05**: Starting acquisition of data at 378C
+
+28/02/2020
+__________
+* **10:54**: Uploaded data for 378C
+* **11:05**: Take temperature measurements at each 30s when the thermo couple is more or less deep in the oven (2 data sets). This will be used to derive a systematic error on the temperature measurement. 
+* Clean up the station since we are done (oven left out to cool down)
