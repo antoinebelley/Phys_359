@@ -50,7 +50,7 @@ __________
 __________
 
 * **13:10**: Stopping the  first run for the plate vertically placed. I.e no angle.
-* **13:11**: Starting measurement with the mica plate oblique. (50.0 +/- 0.2 degrees)
+* **13:11**: Starting measurement with the mica plate oblique. (50 +/- 2 degrees)
 
 
 17/02/2020
