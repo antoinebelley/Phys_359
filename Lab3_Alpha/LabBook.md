@@ -20,5 +20,15 @@ __________
 * **16:35**: We finished calibrating (reached a saturation in our plot). We save a preliminary plot for the calibration as calibration_v1.png. We turn off all apparatus. We give back the Am source and we leave for the day. 
 
 
+11/03/2020
+__________
+* **14:20**: We fit a straight line to our calibration data points channel vs pulse from last time. By using a Chi Squared minimization, we drop our last 3 data points and get an estimate for the real zero of the line of -7.67216754 and the reduced Chi2 is 1.658089796546017. This was done with the plot_calib.py file. 
+	- Results 1.658089796546017
+	[ 2.10841569 -7.67216754]
+![Calibration plot](https://github.com/antoinebelley/Phys_359/blob/master/Lab3_Alpha/calibration_v1.png)
+
+* **14:37**: Saverio disappeared. We have to wait for him in order to create our Pb source. Hence, we use the Am source again to save a data of the spectrum which we will fit will gaussian peaks in order to be more precise. 
+
+
 
 
