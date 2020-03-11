@@ -29,6 +29,20 @@ __________
 
 * **14:37**: Saverio disappeared. We have to wait for him in order to create our Pb source. Hence, we use the Am source again to save a data of the spectrum which we will fit will gaussian peaks in order to be more precise. 
 
+* **14:53**: Finally we will let the calibration spectrum run overnight. For the pressure varying measurements, we start by looking at the effect of changing the pressur on the Am peak roughly through the pressure range. To let air in the chamber, close the vacuum valve and tweak (shortly open) the down valve.
+
+* **15:15**: we start recording the data. At each pressure we save a spectrum on the desktop with name Am241_(Pressure)mB. We make 20 mB jumps between each measurement.  
+* **15:50**: We did 20 mb jumps from 0 to 120 mB. Now following Dominic's idea, we get rid of the bias and in one run, we record multiple peaks at different pressures. The peaks move to the left on the spectrum. From left to right, the peaks are taken at pressure : 
+	pressure (mB)
+	120 
+	200
+	310 
+	400
+	500 -> no more detection. 
+
+* **16:00**: We now know that at 500 mB (no bias), we lose the signal. We will take other pressure varying data later knowing that!
+
+* We put back the low pressure in the tank and let a spectrum measurement run overnight (until friday). 
 
 
 
